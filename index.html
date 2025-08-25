@@ -2,147 +2,204 @@
 <html lang="en" class="scroll-smooth">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArieX - Cuadros personalizados</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArieX - Cuadros personalizados (Dark)</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-zinc-950 text-gray-100">
 
-
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
+    <!-- Header responsive -->
+    <header class="sticky top-0 z-50 bg-black/30 backdrop-blur-sm">
         <div class="container mx-auto p-3">
-            <div class="grid grid-cols-3 items-center py-2">
-                <h1 class=" font-bold opacity-80 z-10"><a href="#">ArieX</a></h1>
+            <div class="grid grid-cols-2 md:grid-cols-3 items-center py-2">
 
-                <nav class="justify-self-center z-50">
+                <!-- LOGO -->
+                <h1 class="font-bold opacity-90 z-10">
+                    <a href="#" class="block text-white">ArieX</a>
+                </h1>
+
+                <!-- NAV (centrado en desktop) -->
+                <nav class="justify-self-center z-50 hidden md:block">
                     <ul class="flex gap-1">
-                        <li><a class="p-2 text-gray-700 rounded-2xl 
-                            hover:text-white hover:bg-zinc-900 
-                            active:bg-zinc-700 active:text-white 
-                            transition-colors duration-150"
+                        <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
                                 href="#catalogo">Catalogo</a></li>
-                        <li><a class="p-2 text-gray-700 rounded-2xl 
-                            hover:text-white hover:bg-zinc-900 
-                            active:bg-zinc-700 active:text-white 
-                            transition-colors duration-150"
+                        <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
                                 href="#nosotros">Nosotros</a></li>
-                        <li><a class="p-2 text-gray-700 rounded-2xl 
-                            hover:text-white hover:bg-zinc-900 
-                            active:bg-zinc-700 active:text-white 
-                            transition-colors duration-150"
+                        <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
                                 href="#contacto">Contacto</a></li>
                     </ul>
                 </nav>
+
+                <!-- HAMBURGER (mobile) -->
+                <div class="flex justify-end">
+                    <button id="hamburgerBtn"
+                        class="md:hidden p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600"
+                        aria-expanded="false" aria-controls="mobileMenu" aria-label="Abrir menú">
+                        <svg id="iconOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block text-gray-100"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="iconClose" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden text-gray-100"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- MENU MOBILE -->
+            <div id="mobileMenu" class="md:hidden hidden mt-2">
+                <ul class="flex flex-col gap-2">
+                    <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
+                            href="#catalogo">Catalogo</a></li>
+                    <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
+                            href="#nosotros">Nosotros</a></li>
+                    <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
+                            href="#contacto">Contacto</a></li>
+                </ul>
             </div>
         </div>
     </header>
 
+    <script>
+        // Toggle menú móvil y accesibilidad
+        const btn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const iconOpen = document.getElementById('iconOpen');
+        const iconClose = document.getElementById('iconClose');
+
+        btn.addEventListener('click', () => {
+            const expanded = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', String(!expanded));
+            mobileMenu.classList.toggle('hidden');
+            iconOpen.classList.toggle('hidden');
+            iconClose.classList.toggle('hidden');
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                mobileMenu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+                iconOpen.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            }
+        });
+    </script>
+
     <!-- HERO -->
-    <section class="relative h-50 m-3 rounded-lg">
-        <img src="assets/img/header.jpg" alt="Header" class="absolute w-full h-full object-cover rounded-2xl">
-        <div class="absolute w-full h-full bg-black/70 rounded-2xl"></div>
-        <div class="relative z-10 flex items-center justify-center h-full flex flex-col ">
-            <h1 class="text-white text-7xl font-bold ">ArieX</h1>
-            <h2 class="text-white text-xl">Cuadros personalizados</h2>
+    <section class="relative min-h-[30vh]  m-3 rounded-lg overflow-hidden">
+        <!-- imagen de fondo (absolute) -->
+        <img src="assets/img/header.jpg" alt="Header" class="absolute inset-0 w-full h-full object-cover rounded-2xl" />
+        <!-- overlay oscuro -->
+        <div class="absolute inset-0 w-full h-full bg-black/70 rounded-2xl"></div>
+
+        <!-- CONTENIDO CENTRADO: ocupa todo el hero y centra perfectamente -->
+        <div class="absolute inset-0 z-10 flex items-center justify-center flex-col text-center px-4">
+            <h1 class="text-white text-7xl font-bold">ArieX</h1>
+            <h2 class="text-white text-xl mt-2">Cuadros personalizados</h2>
         </div>
     </section>
 
 
+
     <main class="container mx-auto px-4 py-8">
 
-        <hr class="border-t-2 border-gray-300 my-4">
+        <hr class="border-t-2 border-zinc-700 my-4" />
 
 
         <!-- CATALOGO -->
         <section aria-labelledby="catalogo-heading" id="catalogo" class="scroll-mt-20 mb-12">
-            <h2 id="catalogo-heading" class="text-2xl font-semibold mb-4 text-center">Catálogo</h2>
+            <h2 id="catalogo-heading" class="text-2xl font-semibold mb-4 text-center text-gray-100">Catálogo</h2>
 
-            <!-- filtros (accesible) -->
-            <nav aria-label="Filtrar por categoría " class="flex justify-center mb-6">
+            <!-- filtros -->
+            <nav aria-label="Filtrar por categoría" class="flex justify-center mb-6">
                 <ul class="flex gap-2 flex-wrap">
-                    <li><button type="button" class="filter-btn px-3 py-1 rounded-md border shadow-sm text-sm"
+                    <li><button type="button"
+                            class="filter-btn px-3 py-1 rounded-md border border-gray-700 shadow-sm text-sm text-gray-100"
                             data-category="todos" aria-pressed="true">Todos</button></li>
-                    <li><button type="button" class="filter-btn px-3 py-1 rounded-md border shadow-sm text-sm"
+                    <li><button type="button"
+                            class="filter-btn px-3 py-1 rounded-md border border-gray-700 shadow-sm text-sm text-gray-100"
                             data-category="modernos">Modernos</button></li>
-                    <li><button type="button" class="filter-btn px-3 py-1 rounded-md border shadow-sm text-sm"
+                    <li><button type="button"
+                            class="filter-btn px-3 py-1 rounded-md border border-gray-700 shadow-sm text-sm text-gray-100"
                             data-category="clasicos">Clásicos</button></li>
-                    <li><button type="button" class="filter-btn px-3 py-1 rounded-md border shadow-sm text-sm"
+                    <li><button type="button"
+                            class="filter-btn px-3 py-1 rounded-md border border-gray-700 shadow-sm text-sm text-gray-100"
                             data-category="abstractos">Abstractos</button></li>
                 </ul>
             </nav>
 
-            <!-- grid responsive de productos -->
+            <!-- grid -->
             <div id="catalogo-grid" class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                <!-- ejemplo de tarjeta de producto -->
-                <article class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+                <!-- tarjeta -->
+                <article class="bg-zinc-900 rounded-lg overflow-hidden shadow hover:shadow-lg transition"
                     data-category="modernos">
                     <figure class="relative w-full h-56">
-                        <img src="assets/img/header.jpg" alt="Cuadro moderno en tonos azules"
-                            class="w-full h-full object-cover" loading="lazy">
+                        <img src="assets/img/header.jpg" alt="Cuadro moderno" class="w-full h-full object-cover "
+                            loading="lazy" />
                     </figure>
 
                     <div class="p-4">
-                        <h3 class="text-lg font-medium">Título del cuadro</h3>
-                        <p class="text-sm text-gray-500 mt-1">Descripción corta del cuadro — tamaño, técnica, etc.</p>
+                        <h3 class="text-lg font-medium text-gray-100">Título del cuadro</h3>
+                        <p class="text-sm text-gray-400 mt-1">Descripción corta del cuadro — tamaño, técnica, etc.</p>
 
                         <div class="mt-3 flex items-center justify-between">
                             <div class="flex gap-2">
                                 <button class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">Ver</button>
-                                <button class="px-3 py-1 border rounded-md text-sm">Solicitar</button>
+                                <button
+                                    class="px-3 py-1 border border-gray-700 text-gray-100 rounded-md text-sm">Solicitar</button>
                             </div>
                         </div>
                     </div>
                 </article>
-                <!-- duplica / genera más artículos dinámicamente desde backend -->
-                <!-- <article data-category="clasicos"> ... </article> -->
             </div>
         </section>
 
-        <hr class="border-t-2 border-gray-300 my-4">
-
+        <hr class="border-t-2 border-zinc-700 my-4" />
 
         <!-- QUIENES SOMOS -->
         <section aria-labelledby="quienes-heading" id="nosotros" class="scroll-mt-40 mb-12">
-            <h2 id="quienes-heading" class="text-2xl font-semibold mb-4 text-center">Quiénes somos</h2>
+            <h2 id="quienes-heading" class="text-2xl font-semibold mb-4 text-center text-gray-100">Quiénes somos</h2>
             <div class="grid gap-6 md:grid-cols-2 items-center">
-                <img src="assets/img/header.jpg" alt="Taller de cuadros"
-                    class="w-full h-64 object-cover rounded-lg shadow" loading="lazy">
+                <img src="assets/img/header.jpg" alt="Taller" class="w-full h-64 object-cover rounded-lg shadow "
+                    loading="lazy" />
                 <div>
-                    <p class="text-gray-700">Somos un taller especializado en cuadros personalizados. Hacemos
+                    <p class="text-gray-200">Somos un taller especializado en cuadros personalizados. Hacemos
                         impresiones, marcos a medida y pintura manual bajo pedido.</p>
-                    <p class="mt-4 text-sm text-gray-500">Envíos a todo el país — pedidos personalizados y
+                    <p class="mt-4 text-sm text-gray-400">Envíos a todo el país — pedidos personalizados y
                         restauraciones.</p>
                 </div>
             </div>
         </section>
 
-        <hr class="border-t-2 border-gray-300 my-4">
-
+        <hr class="border-t-2 border-zinc-700 my-4" />
 
         <!-- CONTACTO -->
         <section aria-labelledby="contacto-heading" id="contacto" class="scroll-mt-40 mb-12">
-            <h2 id="contacto-heading" class="text-2xl font-semibold mb-4 text-center">Contacto</h2>
+            <h2 id="contacto-heading" class="text-2xl font-semibold mb-4 text-center text-gray-100">Contacto</h2>
 
             <form class="w-full flex justify-center" action="/contacto" method="POST" novalidate>
                 <div class="w-80 grid gap-4">
                     <label class="block">
-                        <span class="text-sm font-medium text-gray-700">Nombre</span>
+                        <span class="text-sm font-medium text-gray-200">Nombre</span>
                         <input name="nombre" type="text" required
-                            class="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            class="mt-1 block w-full rounded-md border border-gray-700 bg-zinc-800 text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300" />
                     </label>
 
                     <label class="block">
-                        <span class="text-sm font-medium text-gray-700">Email</span>
+                        <span class="text-sm font-medium text-gray-200">Email</span>
                         <input name="email" type="email" required
-                            class="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            class="mt-1 block w-full rounded-md border border-gray-700 bg-zinc-800 text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300" />
                     </label>
 
                     <label class="block">
-                        <span class="text-sm font-medium text-gray-700">Mensaje / Detalles del encargo</span>
+                        <span class="text-sm font-medium text-gray-200">Mensaje / Detalles del encargo</span>
                         <textarea name="mensaje" rows="4"
-                            class="mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"></textarea>
+                            class="mt-1 block w-full rounded-md border border-gray-700 bg-zinc-800 text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"></textarea>
                     </label>
 
                     <div>
@@ -151,19 +208,17 @@
                 </div>
             </form>
         </section>
-
     </main>
 
-
-    <footer class="bg-zinc-900 text-gray-200">
+    <footer class="bg-zinc-900 text-zinc-200">
         <div class="container mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between">
             <p class="text-sm">© <span id="year"></span> ArieX. Todos los derechos reservados.</p>
 
             <nav aria-label="Enlaces de pie" class="mt-3 sm:mt-0">
                 <ul class="flex gap-4 text-sm">
-                    <li><a class="hover:underline" href="/nosotros">Quiénes somos</a></li>
-                    <li><a class="hover:underline" href="/envios">Envíos</a></li>
-                    <li><a class="hover:underline" href="/contacto">Contacto</a></li>
+                    <li><a class="hover:underline text-gray-200" href="/nosotros">Quiénes somos</a></li>
+                    <li><a class="hover:underline text-gray-200" href="/envios">Envíos</a></li>
+                    <li><a class="hover:underline text-gray-200" href="/contacto">Contacto</a></li>
                 </ul>
             </nav>
         </div>
@@ -173,7 +228,6 @@
             document.getElementById('year').textContent = new Date().getFullYear();
         </script>
     </footer>
-
 
 </body>
 
