@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-zinc-950 text-gray-100 antialiased">
-
+    
   <!-- Header responsive -->
   <header class="sticky top-0 z-50 bg-black/30 backdrop-blur-sm">
     <div class="container mx-auto p-3">
@@ -23,6 +23,8 @@
             <!-- NAV (centrado en desktop) -->
             <nav class="justify-self-center z-50 hidden md:block">
                 <ul class="flex gap-1">
+                    <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
+                        href="index.html">Inicio</a></li>
                     <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
                             href="catalogo.html">Catalogo</a></li>
                     <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
@@ -54,6 +56,8 @@
         <div id="mobileMenu" class="md:hidden hidden mt-2">
             <ul class="flex flex-col gap-2">
                 <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
+                    href="index.html">Inicio</a></li>
+                <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
                         href="catalogo.html">Catalogo</a></li>
                 <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
                         href="#nosotros">Nosotros</a></li>
@@ -63,7 +67,6 @@
         </div>
     </div>
 </header>
-
 <script>
     // Toggle menú móvil y accesibilidad
     const btn = document.getElementById('hamburgerBtn');
