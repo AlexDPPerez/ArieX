@@ -25,7 +25,7 @@
                 <nav class="justify-self-center z-50 hidden md:block">
                     <ul class="flex gap-1">
                         <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
-                                href="#catalogo">Catalogo</a></li>
+                                href="catalogo.html">Catalogo</a></li>
                         <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
                                 href="#nosotros">Nosotros</a></li>
                         <li><a class="p-2 text-gray-100 rounded-2xl hover:text-black hover:bg-gray-200 active:bg-gray-300 active:text-black transition-colors duration-150"
@@ -55,7 +55,7 @@
             <div id="mobileMenu" class="md:hidden hidden mt-2">
                 <ul class="flex flex-col gap-2">
                     <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
-                            href="#catalogo">Catalogo</a></li>
+                            href="catalogo.html">Catalogo</a></li>
                     <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
                             href="#nosotros">Nosotros</a></li>
                     <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
@@ -90,23 +90,26 @@
         });
     </script>
 
-    <!-- HERO -->
-    <section class="relative min-h-[30vh]  m-3 rounded-lg overflow-hidden">
-        <!-- imagen de fondo (absolute) -->
-        <img src="assets/img/header.jpg" alt="Header" class="absolute inset-0 w-full h-full object-cover rounded-2xl" />
-        <!-- overlay oscuro -->
-        <div class="absolute inset-0 w-full h-full bg-black/70 rounded-2xl"></div>
-
-        <!-- CONTENIDO CENTRADO: ocupa todo el hero y centra perfectamente -->
-        <div class="absolute inset-0 z-10 flex items-center justify-center flex-col text-center px-4">
-            <h1 class="text-white text-7xl font-bold">ArieX</h1>
-            <h2 class="text-white text-xl mt-2">Cuadros personalizados</h2>
-        </div>
-    </section>
 
 
 
     <main class="container mx-auto px-4 py-8">
+
+
+        <!-- HERO -->
+        <section class="container relative min-h-[30vh] rounded-lg overflow-hidden">
+            <!-- imagen de fondo (absolute) -->
+            <img src="assets/img/header.jpg" alt="Header"
+                class="absolute inset-0 w-full h-full object-cover rounded-2xl" />
+            <!-- overlay oscuro -->
+            <div class="absolute inset-0 w-full h-full bg-black/70 rounded-2xl backdrop-blur-sm"></div>
+
+            <!-- CONTENIDO CENTRADO: ocupa todo el hero y centra perfectamente -->
+            <div class="absolute inset-0 z-10 flex items-center justify-center flex-col text-center px-4">
+                <h1 class="text-white text-7xl font-bold">ArieX</h1>
+                <h2 class="text-white text-xl mt-2">Cuadros personalizados</h2>
+            </div>
+        </section>
 
         <hr class="border-t-2 border-zinc-700 my-4" />
 
