@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -11,21 +11,35 @@
 <body>
 
 
-    <header>
-        <nav class="bg-zinc-900 p-3">
-            <h1 class="text-white font-bold opacity-80">ArieX</h1>
-        </nav>
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
+        <div class="container mx-auto p-3">
+            <div class="grid grid-cols-3 items-center py-2">
+                <h1 class=" font-bold opacity-80"><a href="#">ArieX</a></h1>
 
-        <section class="relative h-50 m-5 rounded-lg">
-            <img src="assets/img/header.jpg" alt="Header" class="absolute w-full h-full object-cover rounded-2xl">
-            <div class="absolute w-full h-full bg-black/70 rounded-2xl"></div>
-            <div class="relative z-10 flex items-center justify-center h-full flex flex-col ">
-                <h1 class="text-white text-7xl font-bold ">ArieX</h1>
-                <h2 class="text-white text-xl">Cuadros personalizados</h2>
+                <nav class="justify-self-center">
+                    <ul class="flex gap-10">
+                        <li><a class="p-2 text-gray-700 rounded-2xl hover:text-white hover:bg-zinc-900 transition-colors duration-150"
+                                href="#catalogo">Catalogo</a></li>
+                        <li><a class="p-2 text-gray-700 rounded-2xl hover:text-white hover:bg-zinc-900 transition-colors duration-150"
+                                href="#nosotros">Nosotros</a></li>
+                        <li><a class="p-2 text-gray-700 rounded-2xl hover:text-white hover:bg-zinc-900 transition-colors duration-150"
+                                href="#contacto">Contacto</a></li>
+                    </ul>
+                </nav>
             </div>
-        </section>
-
+        </div>
     </header>
+
+    <!-- HERO -->
+    <section class="relative h-50 m-3 rounded-lg">
+        <img src="assets/img/header.jpg" alt="Header" class="absolute w-full h-full object-cover rounded-2xl">
+        <div class="absolute w-full h-full bg-black/70 rounded-2xl"></div>
+        <div class="relative z-10 flex items-center justify-center h-full flex flex-col ">
+            <h1 class="text-white text-7xl font-bold ">ArieX</h1>
+            <h2 class="text-white text-xl">Cuadros personalizados</h2>
+        </div>
+    </section>
+
 
     <main class="container mx-auto px-4 py-8">
 
@@ -33,7 +47,7 @@
 
 
         <!-- CATALOGO -->
-        <section aria-labelledby="catalogo-heading " class="mb-12">
+        <section aria-labelledby="catalogo-heading" id="catalogo" class="mb-12">
             <h2 id="catalogo-heading" class="text-2xl font-semibold mb-4 text-center">Catálogo</h2>
 
             <!-- filtros (accesible) -->
@@ -65,76 +79,13 @@
                         <p class="text-sm text-gray-500 mt-1">Descripción corta del cuadro — tamaño, técnica, etc.</p>
 
                         <div class="mt-3 flex items-center justify-between">
-                            <span class="text-lg font-semibold">$120</span>
                             <div class="flex gap-2">
                                 <button class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">Ver</button>
-                                <button class="px-3 py-1 border rounded-md text-sm">Añadir</button>
+                                <button class="px-3 py-1 border rounded-md text-sm">Solicitar</button>
                             </div>
                         </div>
                     </div>
                 </article>
-
-                <article class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition"
-                    data-category="modernos">
-                    <figure class="relative w-full h-56">
-                        <img src="assets/img/header.jpg" alt="Cuadro moderno en tonos azules"
-                            class="w-full h-full object-cover" loading="lazy">
-                    </figure>
-
-                    <div class="p-4">
-                        <h3 class="text-lg font-medium">Título del cuadro</h3>
-                        <p class="text-sm text-gray-500 mt-1">Descripción corta del cuadro — tamaño, técnica, etc.</p>
-
-                        <div class="mt-3 flex items-center justify-between">
-                            <span class="text-lg font-semibold">$120</span>
-                            <div class="flex gap-2">
-                                <button class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">Ver</button>
-                                <button class="px-3 py-1 border rounded-md text-sm">Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition"
-                    data-category="modernos">
-                    <figure class="relative w-full h-56">
-                        <img src="assets/img/header.jpg" alt="Cuadro moderno en tonos azules"
-                            class="w-full h-full object-cover" loading="lazy">
-                    </figure>
-
-                    <div class="p-4">
-                        <h3 class="text-lg font-medium">Título del cuadro</h3>
-                        <p class="text-sm text-gray-500 mt-1">Descripción corta del cuadro — tamaño, técnica, etc.</p>
-
-                        <div class="mt-3 flex items-center justify-between">
-                            <span class="text-lg font-semibold">$120</span>
-                            <div class="flex gap-2">
-                                <button class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">Ver</button>
-                                <button class="px-3 py-1 border rounded-md text-sm">Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article class="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition"
-                    data-category="modernos">
-                    <figure class="relative w-full h-56">
-                        <img src="assets/img/header.jpg" alt="Cuadro moderno en tonos azules"
-                            class="w-full h-full object-cover" loading="lazy">
-                    </figure>
-
-                    <div class="p-4">
-                        <h3 class="text-lg font-medium">Título del cuadro</h3>
-                        <p class="text-sm text-gray-500 mt-1">Descripción corta del cuadro — tamaño, técnica, etc.</p>
-
-                        <div class="mt-3 flex items-center justify-between">
-                            <span class="text-lg font-semibold">$120</span>
-                            <div class="flex gap-2">
-                                <button class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">Ver</button>
-                                <button class="px-3 py-1 border rounded-md text-sm">Añadir</button>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
                 <!-- duplica / genera más artículos dinámicamente desde backend -->
                 <!-- <article data-category="clasicos"> ... </article> -->
             </div>
@@ -144,7 +95,7 @@
 
 
         <!-- QUIENES SOMOS -->
-        <section aria-labelledby="quienes-heading" class="mb-12">
+        <section aria-labelledby="quienes-heading" id="nosotros" class="mb-12">
             <h2 id="quienes-heading" class="text-2xl font-semibold mb-4 text-center">Quiénes somos</h2>
             <div class="grid gap-6 md:grid-cols-2 items-center">
                 <img src="assets/img/header.jpg" alt="Taller de cuadros"
@@ -162,7 +113,7 @@
 
 
         <!-- CONTACTO -->
-        <section aria-labelledby="contacto-heading" class="mb-12">
+        <section aria-labelledby="contacto-heading" id="contacto" class="mb-12">
             <h2 id="contacto-heading" class="text-2xl font-semibold mb-4 text-center">Contacto</h2>
 
             <form class="w-full flex justify-center" action="/contacto" method="POST" novalidate>
@@ -197,23 +148,23 @@
 
     <footer class="bg-zinc-900 text-gray-200">
         <div class="container mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between">
-          <p class="text-sm">© <span id="year"></span> ArieX. Todos los derechos reservados.</p>
-      
-          <nav aria-label="Enlaces de pie" class="mt-3 sm:mt-0">
-            <ul class="flex gap-4 text-sm">
-              <li><a class="hover:underline" href="/nosotros">Quiénes somos</a></li>
-              <li><a class="hover:underline" href="/envios">Envíos</a></li>
-              <li><a class="hover:underline" href="/contacto">Contacto</a></li>
-            </ul>
-          </nav>
+            <p class="text-sm">© <span id="year"></span> ArieX. Todos los derechos reservados.</p>
+
+            <nav aria-label="Enlaces de pie" class="mt-3 sm:mt-0">
+                <ul class="flex gap-4 text-sm">
+                    <li><a class="hover:underline" href="/nosotros">Quiénes somos</a></li>
+                    <li><a class="hover:underline" href="/envios">Envíos</a></li>
+                    <li><a class="hover:underline" href="/contacto">Contacto</a></li>
+                </ul>
+            </nav>
         </div>
-      
+
         <script>
-          // año dinámico
-          document.getElementById('year').textContent = new Date().getFullYear();
+            // año dinámico
+            document.getElementById('year').textContent = new Date().getFullYear();
         </script>
-      </footer>
-      
+    </footer>
+
 
 </body>
 
