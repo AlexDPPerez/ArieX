@@ -1,4 +1,6 @@
+import { obtenerCuadros } from "../models/cuadrosModel.js";
 
 export const mostrarCatalogo = (req, res) => {
-    res.render("catalogo", { titulo: "Catalogo" });
+    const cuadros = obtenerCuadros();
+    res.render("catalogo", { titulo: "Catalogo", cuadros });
 }
