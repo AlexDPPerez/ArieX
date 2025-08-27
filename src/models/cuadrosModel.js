@@ -1,4 +1,4 @@
-import db from "./db.js";
+import db from "../config/db.js";
 
 export function crearCuadro({titulo, descripcion, imagen, categoria}) {
     const stmt = db.prepare(`INSERT INTO cuadros (titulo, descripcion, imagen, categoria) VALUES (?, ?, ?, ?)`);

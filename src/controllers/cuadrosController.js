@@ -1,15 +1,9 @@
 import path from "path";
-import { crearCuadro, obtenerCuadros, obtenerCuadrosPorCategoria } from "../models/cuadrosModel";
+import { crearCuadro, obtenerCuadros, obtenerCuadrosPorCategoria } from "../models/cuadrosModel.js";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-export const mostrarCatalogo = (req, res) => {
-    const categoria = req.query.categoria;
-    const cuadros = categoria ? obtenerCuadrosPorCategoria(categoria) : obtenerCuadros();
-    res.render("catalogo", { titulo: "Catálogo", cuadros, categoria });
-};
 
 export const mostrarSubirForm = (req, res) => {
     res.render("subir", { titulo: "Subir Cuadro" });

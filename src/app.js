@@ -3,6 +3,7 @@ import expressLayouts from "express-ejs-layouts";
 import path from "path";
 import { fileURLToPath } from "url";
 import cuadrosRoutes from "./routes/cuadrosRoutes.js";
+import catalogoRoutes from "./routes/catalogoRoutes.js";
 import homeRoutes from "./routes/homeRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,19 +27,12 @@ app.use((req, res, next) => {
 
 // Rutas
 app.use("/", homeRoutes);
-app.use("/catalogo", cuadrosRoutes);
+app.use("/catalogo", catalogoRoutes);
 
-app.get("/subir", (req, res) => {
-  res.render("subir", { titulo: "Subir Cuadro" });
-});
-
-// Fallback: si el navegador pide HTML y ninguna ruta coincidió, renderiza index (útil para SPA)
-app.get('*', (req, res, next) => {
-    // ignorar peticiones a archivos estáticos con extensión
-    if (req.path.includes('.') ) return next();
-    if (req.accepts('html')) return res.render('index', { titulo: 'Inicio' });
+app.use((req, res, next) => {
+    console.log(`Ruta solicitada: ${req.originalUrl}`);
     next();
-  });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
