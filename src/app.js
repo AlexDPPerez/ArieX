@@ -15,6 +15,13 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../views"));
 app.use(expressLayouts);
 
+// logging + instance header
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} — pid:${process.pid}`);
+    res.setHeader('X-Instance', process.pid);
+    next();
+  });
+
 // Simulación de DB en memoria
 let productos = [];
 
