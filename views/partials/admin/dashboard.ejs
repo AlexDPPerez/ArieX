@@ -1,0 +1,37 @@
+<section id="dashboard" class="grid grid-cols-1 gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-zinc-800 rounded-lg p-4">
+            <div class="text-sm text-zinc-400">Cuadros Activos</div>
+            <div class="text-2xl font-bold mt-2"><span data-hook="stat-total-cuadros"><%= totalCuadros %></span></div>
+        </div>
+
+        <div class="bg-zinc-800 rounded-lg p-4">
+            <div class="text-sm text-zinc-400">Usuarios Registrados</div>
+            <div class="text-2xl font-bold mt-2"><span data-hook="stat-total-usuarios"><%= totalUsuarios %></span></div>
+        </div>
+
+        <div class="bg-zinc-800 rounded-lg p-4">
+            <div class="text-sm text-zinc-400">Categorías Activas</div>
+            <div class="text-2xl font-bold mt-2"><span data-hook="stat-total-categorias"><%= totalCategorias %></span></div>
+        </div>
+    </div>
+
+    <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
+        <h3 class="text-lg font-semibold mb-3">Actividad reciente</h3>
+        <% if (cuadros.length > 0) { %>
+            <ul class="mt-3 divide-y divide-zinc-800">
+                <% cuadros.slice(0, 5).forEach(cuadro => { %>
+                    <li class="py-3 flex justify-between items-center">
+                        <div class="text-sm">
+                            <span class="text-emerald-400">NUEVO CUADRO:</span>
+                            <span class="font-medium">"<%= cuadro.titulo %>"</span> en la categoría <%= cuadro.categoria %>.
+                        </div>
+                        <span class="text-xs text-zinc-500"><%= new Date(cuadro.creado_en).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }) %></span>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <div class="text-sm text-zinc-400">No hay actividad reciente para mostrar.</div>
+        <% } %>
+    </div>
+</section>

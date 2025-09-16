@@ -4,10 +4,24 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ArieX - <%= titulo %></title>
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>ArieX - <%= titulo %>
+    </title>
+
+    <!-- Tailwind -->
+    <link href="/css/output.css" rel="stylesheet">
+
+    <!-- Tabulator CSS -->
+    <link href="/lib/tabulator/tabulator.min.css" rel="stylesheet">
+    <link href="/lib/tabulator/tabulator_dark.css" rel="stylesheet">
+    <script src="/lib/tabulator/tabulator.min.js"></script>
+
+    <!-- notify -->
+    <link rel="stylesheet" href="/lib/notyf/notyf.min.css">
+    <script src="/lib/notyf/notyf.min.js"></script>
+
 </head>
+
+
 
 <body class="bg-zinc-950 text-gray-100">
 
@@ -94,8 +108,8 @@
         });
     </script>
 
-    <main class="container mx-auto px-4 pb-12"> 
-       <%- body %>
+    <main class="container mx-auto px-4 pb-12">
+        <%- body %>
     </main>
 
     <footer class="bg-zinc-900 text-zinc-200">
@@ -116,6 +130,8 @@
             document.getElementById('year').textContent = new Date().getFullYear();
         </script>
     </footer>
+
+    <script type="module" src="/js/main.js"></script>
 
 </body>
 

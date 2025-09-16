@@ -1,0 +1,229 @@
+perfecto, podrias hacer lo mismo con los toda la seccion?; no es necesario el codigo js: <!-- Modal reutilizable (crear / editar) -->
+<div id="modal" class="flex fixed inset-0 hidden z-50 items-center justify-center" aria-hidden="true"
+  aria-labelledby="modalTitle" role="dialog">
+
+  <!-- Overlay -->
+  <div id="overlay" class="fixed inset-0 bg-black/50 opacity-0 transition-opacity duration-100">
+  </div>
+
+  <!-- Confirmar Modal -->
+  <!-- Modal -->
+  <div id="confirmarModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-2xl shadow-lg w-full max-w-md p-6">
+      <!-- Mensaje -->
+      <p id="confirmarMensaje" class="text-gray-800 text-lg mb-6 text-center">
+        ¿Estás seguro de realizar esta acción?
+      </p>
+
+      <!-- Botones -->
+      <div class="flex justify-center gap-4">
+        <button id="cancelarBtn"
+          class="px-4 py-2 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+          Cancelar
+        </button>
+        <button id="confirmarBtn" class="px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 transition">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERLAY + MODAL (oculto por defecto) -->
+  <div id="crearCategoria" role="dialog" aria-modal="true" aria-labelledby="modalTitleCategoria"
+    class="relative w-full max-w-2xl transform overflow-hidden rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl transition-all duration-300 translate-y-6 opacity-0"
+    tabindex="-1">
+    <!-- HEADER -->
+    <div class="flex items-center justify-between gap-4 border-b border-zinc-800 px-6 py-4">
+      <div class="flex items-center gap-3">
+        <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 7v4a2 2 0 0 0 2 2h3"></path>
+          <path d="M21 17v-4a2 2 0 0 0-2-2h-3"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <h2 id="modalTitleCategoria" class="text-lg font-semibold">Nueva categoría</h2>
+      </div>
+
+      <button id="closeModalCategoria" type="button" aria-label="Cerrar modal"
+        class="rounded-md px-3 py-1 text-2xl leading-none text-zinc-300 hover:bg-zinc-800/60 focus:outline-none focus:ring-2 focus:ring-green-500">
+        &times;
+      </button>
+    </div>
+
+    <!-- FORM: enctype necesario para multer -->
+    <form id="modalFormCategoria" method="POST" enctype="multipart/form-data" class="space-y-6 px-6 py-5" novalidate>
+      <!-- Nombre categoría -->
+      <div>
+        <label for="categoriaNombre" class="mb-1 block text-sm font-medium text-zinc-300">Nombre de la
+          categoría</label>
+        <input id="categoriaNombre" name="categoria" required
+          class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+          placeholder="Ej. Panadería / Electrónica">
+        <p id="categoriaError" class="mt-1 text-xs text-rose-400 hidden">Este campo es requerido.</p>
+      </div>
+
+      <!-- Añadir subcategoria -->
+      <div>
+        <label for="subcategoriaInput" class="mb-1 block text-sm font-medium text-zinc-300">Añadir
+          subcategoría</label>
+        <div class="flex gap-3">
+          <input id="subcategoriaInput" type="text" placeholder="Nombre subcategoría"
+            class="flex-1 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button id="agregarSubcategoria" type="button"
+            class="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+            Agregar
+          </button>
+        </div>
+        <p id="subcatError" class="mt-1 text-xs text-rose-400 hidden">La subcategoría ya existe o está vacía.</p>
+
+        <!-- Lista de subcategorías -->
+        <div class="mt-4">
+          <div class="overflow-hidden rounded-md border border-zinc-800 bg-zinc-900">
+            <table class="w-full table-auto text-sm">
+              <thead class="bg-zinc-950/30">
+                <tr>
+                  <th class="px-4 py-2 text-left">Subcategoría</th>
+                  <th class="w-28 px-4 py-2">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="subcatTableBody" class="divide-y divide-zinc-800">
+                <!-- filas dinámicas -->
+              </tbody>
+            </table>
+            <p id="sinSubcat" class="px-4 py-3 text-xs text-zinc-400">No hay subcategorías añadidas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER acciones -->
+      <div class="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-800 pt-4">
+        <button type="button" id="cancelBtn"
+          class="rounded-md bg-zinc-700 px-4 py-2 text-sm font-medium hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+          Cancelar
+        </button>
+        <button id="submitBtn" type="submit"
+          class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+          Crear categoría
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+
+
+  <!-- crear usuarios -->
+  <div id="crearUsuario"
+    class="modal relative bg-zinc-900 rounded-lg shadow-lg w-11/12 max-w-2xl p-6 z-10 opacity-0 transition-opacity duration-100">
+    <div class="flex justify-between items-center mb-4">
+      <h2 id="modalTitle" class="text-xl font-semibold">Nuevo Usuario</h2>
+      <button id="closeModal" class="text-gray-600 text-2xl leading-none" aria-label="Cerrar modal"
+        data-close-button="crearCuadro">&times;</button>
+    </div>
+
+    <!-- FORM: action se actualiza por JS, enctype necesario para multer -->
+    <form id="modalForm" method="POST" enctype="multipart/form-data" class="space-y-4" novalidate>
+      <div>
+        <label for="titulo" class="block text-sm font-medium">Título</label>
+        <input id="titulo" name="titulo" required class="border p-2 w-full rounded bg-zinc-800"
+          placeholder="Nombre de la obra">
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="autor" class="block text-sm font-medium">Categoria</label>
+          <input id="autor" name="autor" class="border p-2 w-full rounded bg-zinc-800" placeholder="Autor">
+        </div>
+        <div>
+          <label for="precio" class="block text-sm font-medium">Subcategoria</label>
+          <input id="precio" name="precio" type="number" step="0.01" class="border p-2 w-full rounded bg-zinc-800"
+            placeholder="0.00">
+        </div>
+      </div>
+
+      <div>
+        <label for="descripcion" class="block text-sm font-medium">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows="3" class="border p-2 w-full rounded bg-zinc-800"
+          placeholder="Pequeña descripción..."></textarea>
+      </div>
+
+      <div>
+        <label for="imagen" class="block text-sm font-medium">Imagen (jpg/png/webp, max 5MB)</label>
+        <input id="imagen" name="imagen" type="file" accept="image/*" class="mt-1">
+        <div id="previewWrapper" class="mt-3">
+          <img id="imgPreview" src="" alt="Preview" class="w-48 hidden rounded border">
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="submitBtn" type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Crear</button>
+        <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-200 rounded"
+          data-close-button="crearCuadro">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modal box -->
+  <div id="crearCuadro"
+    class="modal relative bg-zinc-900 rounded-lg shadow-lg w-11/12 max-w-2xl p-6 z-10 opacity-0 transition-opacity duration-100">
+    <div class="flex justify-between items-center mb-4">
+      <h2 id="modalTitle" class="text-xl font-semibold">Nuevo cuadross</h2>
+      <button id="closeModal" class="text-gray-600 text-2xl leading-none" aria-label="Cerrar modal"
+        data-close-button="crearCuadro">&times;</button>
+    </div>
+
+    <!-- FORM: action se actualiza por JS, enctype necesario para multer -->
+    <form id="crearCuadroForm" method="POST" enctype="multipart/form-data" class="space-y-4" novalidate>
+
+      <input type="hidden" name="id" id="id">
+
+      <div>
+        <label for="titulo" class="block text-sm font-medium">Título</label>
+        <input id="titulo" name="titulo" required class="border p-2 w-full rounded bg-zinc-800"
+          placeholder="Nombre de la obra">
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="categoria" class="block text-sm font-medium">Categoria</label>
+          <select name="categoria" class="border p-2 w-full rounded bg-zinc-800" id="categoria">
+            <option value="" disabled selected>Selecciona una categoria</option>
+            <% categorias.forEach(categoria=> { %>
+              <option value="<%= categoria.id %>">
+                <%= categoria.nombre %>
+              </option>
+              <% }) %>
+          </select>
+        </div>
+        <div>
+          <label for="subcategoria" class="block text-sm font-medium">Subcategoria</label>
+          <select name="subcategoria" class="border p-2 w-full rounded bg-zinc-800" id="subcategoria" disabled>
+            <option value="">Ninguna categoria seleccionada</option>
+          </select>
+
+        </div>
+
+        <div>
+          <label for="descripcion" class="block text-sm font-medium">Descripción</label>
+          <textarea id="descripcion" name="descripcion" rows="3" class="border p-2 w-full rounded bg-zinc-800"
+            placeholder="Pequeña descripción..."></textarea>
+        </div>
+
+        <div>
+          <label for="imagen" class="block text-sm font-medium">Imagen (jpg/png/webp, max 5MB)</label>
+          <input id="imagen" name="imagen" type="file" accept="image/*" class="mt-1">
+          <div id="previewWrapper" class="mt-3">
+            <img id="imgPreview" src="" alt="Preview" class="w-48 hidden rounded border">
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="registrarCuadroBtn" type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Crear</button>
+
+          <button type="button" id="cancelBtn" class="px-4 py-2 bg-gray-200 rounded"
+            data-close-button="crearCuadro">Cancelar</button>
+        </div>
+    </form>
+  </div>
+
+</div>

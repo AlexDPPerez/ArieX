@@ -1,0 +1,260 @@
+/* tabulator-dark.css
+   Minimalista • Oscuro • Pensado para integrarse con tu layout Tailwind (zinc-900/950)
+   Instrucciones:
+   - Coloca este archivo en `public/css/tabulator-dark.css` (o donde sirvas CSS)
+   - Si usas Webpack: importa en tu entry (ej. `import '../css/tabulator-dark.css'`)
+   - O añade en tu layout: <link rel="stylesheet" href="/css/tabulator-dark.css">
+
+   Diseño intencional: contraste moderado, filas zebra sutil, foco/acento en verde (emerald), bordes suaves.
+*/
+
+:root {
+  --tab-bg: #0b0b0c;
+  /* fondo general */
+  --tab-surface: #0f1720;
+  /* superficie principal (panel interno) */
+  --tab-border: #1f2933;
+  /* bordes */
+  --tab-text: #e6eef6;
+  /* texto principal */
+  --tab-muted: #9aa3ad;
+  /* texto secundario */
+  --tab-heading: #e2e8f0;
+  /* encabezados */
+  --tab-accent: #10b981;
+  /* emerald-500 */
+  --tab-row-alt: rgba(255, 255, 255, 0.02);
+  --tab-selected: rgba(16, 185, 129, 0.12);
+  --tab-input-bg: #0b1216;
+  --tab-input-border: #23303a;
+  --tab-radius: 0.5rem;
+  --tab-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Contenedor principal generado por Tabulator */
+.tabulator {
+  background: transparent;
+  color: var(--tab-text);
+  font-family: var(--tab-font);
+  border: 1px solid var(--tab-border);
+  border-radius: var(--tab-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(2, 6, 23, 0.5);
+  font-size: 0.95rem;
+}
+
+/* Header */
+.tabulator .tabulator-header {
+  background: transparent;
+  border-bottom: 1px solid var(--tab-border);
+  padding: 0.4rem 0.5rem;
+}
+
+.tabulator .tabulator-col {
+  background: transparent;
+  color: var(--tab-heading);
+  font-weight: 600;
+  padding: 0.65rem 0.75rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Títulos de columna y iconos de orden */
+.tabulator .tabulator-col .tabulator-col-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tabulator .tabulator-col .tabulator-col-sorter {
+  color: var(--tab-muted);
+  opacity: 0.9;
+}
+
+/* Filas y celdas */
+.tabulator .tabulator-row {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.tabulator .tabulator-row:nth-child(even) {
+  background: var(--tab-row-alt);
+}
+
+.tabulator .tabulator-cell {
+  padding: 0.6rem 0.75rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.02);
+  color: var(--tab-text);
+  vertical-align: middle;
+}
+
+/* Cuando una fila está seleccionada */
+.tabulator .tabulator-row.tabulator-selected {
+  background: var(--tab-selected);
+  outline: 0;
+  position: relative;
+}
+
+.tabulator .tabulator-row.tabulator-selected .tabulator-cell {
+  color: var(--tab-text);
+}
+
+/* Sutil borde de acento a la izquierda en selección (opcional) */
+.tabulator .tabulator-row.tabulator-selected::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.95), rgba(16, 185, 129, 0.7));
+}
+
+/* Inputs en header (filtros) */
+.tabulator .tabulator-header-filter input,
+.tabulator .tabulator-header-filter select {
+  background: var(--tab-input-bg);
+  border: 1px solid var(--tab-input-border);
+  color: var(--tab-text);
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+}
+
+.tabulator .tabulator-header-filter input::placeholder {
+  color: var(--tab-muted);
+}
+
+/* Placeholder (cuando no hay datos) */
+.tabulator .tabulator-placeholder {
+  color: var(--tab-muted);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* Footer / Paginación */
+.tabulator .tabulator-footer {
+  background: transparent;
+  border-top: 1px solid var(--tab-border);
+  padding: 0.5rem;
+}
+
+.tabulator .tabulator-pager {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.tabulator .tabulator-pager .tabulator-page,
+.tabulator .tabulator-pager .tabulator-page-button {
+  background: transparent;
+  border: 1px solid var(--tab-border);
+  color: var(--tab-text);
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+}
+
+.tabulator .tabulator-pager .tabulator-page-button:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tabulator .tabulator-pager .active {
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.06));
+  border-color: rgba(16, 185, 129, 0.28);
+}
+
+/* Scrollbar tenue */
+.tabulator .tabulator-tableholder::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.tabulator .tabulator-tableholder::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+/* Compacto (útil si quieres menos altura) */
+.tabulator.tabulator-compact .tabulator-cell,
+.tabulator.tabulator-compact .tabulator-col {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+/* Pequeños ajustes para integrarse con Tailwind containers */
+.tabulator {
+  max-width: 100%;
+}
+
+/* Botones/Acciones dentro de celdas */
+.tabulator .cell-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 0.28rem 0.5rem;
+  border-radius: 0.35rem;
+  color: var(--tab-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.tabulator .cell-button:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Small helper: make sort arrow accent color */
+.tabulator .tabulator-col .tabulator-arrow {
+  color: var(--tab-accent);
+}
+
+/* Ensure resizer handles are visible but subtle */
+.tabulator .tabulator-col .tabulator-col-resize-handle {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.tabulator .tabulator-tableholder .tabulator-table {
+  background: none;
+  transition: all 0.2s ease;
+}
+
+.tabulator .tabulator-header .tabulator-col {
+  background: none;
+}
+
+.tabulator .tabulator-header .tabulator-col:hover {
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.2s ease;
+}
+
+
+.tabulator .tabulator-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.2s ease;
+
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
+    background: rgba(255, 255, 255, 0.03);
+
+    cursor: pointer;
+  }
+}
+
+.tabulator .tabulator-footer .tabulator-page {
+  color: white;
+  background-color: transparent;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 0 2px;
+  padding: 2px 5px;
+}
+
+.tabulator .tabulator-footer .tabulator-page:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+  /* End of file */

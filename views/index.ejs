@@ -26,7 +26,7 @@
 
         <!-- --- ANIME --- -->
 
-        <a href="#"
+        <a href="/calagoo?categoria=anime"
             class="group relative min-h-[30vh] rounded-lg overflow-hidden shadow hover:shadow-lg transition">
             <!-- Imagen -->
             <img src="assets/img/anime.jpg" alt="Cuadro moderno"
@@ -52,7 +52,7 @@
                     <p class="mt-2 text-sm">Tus series japonesas favoritas.</p>
                 </div>
             </div>
-        </a href="#">
+        </a>
 
         <!-- --- SUPER HEROES --- -->
         <a href="#"
@@ -81,10 +81,10 @@
                     <p class="mt-2 text-sm">Cuadros de los heroes mas conocidos.</p>
                 </div>
             </div>
-        </a href="#">
+        </a >
 
         <!-- --- TONY MONTANA --- -->
-        <a href="#"
+        <a href="/catalogo?categoria=TonyMontana"
             class="group relative min-h-[30vh] rounded-lg overflow-hidden shadow hover:shadow-lg transition">
             <!-- Imagen -->
             <img src="assets/img/tony_montana.jpg" alt="Cuadro moderno"
@@ -110,7 +110,7 @@
                     <p class="mt-2 text-sm">Cuadros de el narco megalomano.</p>
                 </div>
             </div>
-        </a href="#">
+        </a>
 
         <!-- --- FUTBOOL --- -->
         <a href="#"
@@ -165,27 +165,32 @@
     <!-- ! grid responsive de productos -->
     <div id="catalogo-grid" class="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
-        <!-- ejemplo de tarjeta de producto -->
-        <article class="bg-zinc-900 rounded-lg overflow-hidden shadow hover:shadow-lg transition"
-            data-category="modernos">
-            <figure class="relative w-full h-56">
-                <img src="assets/img/cuadro_1.jpg" alt="Cuadro moderno en tonos azules"
-                    class="w-full h-full object-cover" loading="lazy">
-            </figure>
-
-            <div class="p-4">
-                <h3 class="text-lg font-medium">Título del cuadro</h3>
-                <p class="text-sm text-gray-500 mt-1 hidden md:block">Descripción corta del cuadro — tamaño,
-                    técnica, etc.</p>
-
-                <div class="mt-3 flex items-center justify-between">
-                    <div class="flex gap-2">
-                        <button class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">Ver</button>
-                        <button class="px-3 py-1 border rounded-md text-sm">Solicitar</button>
+        <% if(cuadros.length === 0){ %>
+            <p class="text-gray-300">No se encontraron cuadros.</p>
+            <% }else {cuadros.forEach(p=> { %> <!-- Cambiado cuadros.array a cuadros -->
+                <!-- tarjeta 1 -->
+                <article class="bg-zinc-900 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
+                    <figure class="relative w-full h-56">
+                        <img src="/uploads/<%= p.imagen %>" alt="<%= p.titulo %>"
+                            class="w-full h-full object-cover" />
+                    </figure>
+                    <div class="p-4">
+                        <h3 class="text-lg font-medium text-gray-100">
+                            <%= p.titulo %>
+                        </h3>
+                        <p class="text-sm text-gray-400 mt-1">
+                            <%= p.descripcion %>
+                        </p>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">Ver</button>
+                                <button
+                                    class="px-3 py-1 border border-gray-700 text-gray-100 rounded-md text-sm">Solicitar</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </article>
+                </article>
+                <% })} %> <!-- Cierre del forEach y del if -->
 
     </div>
 </section>

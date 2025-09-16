@@ -1,0 +1,41 @@
+<section id="gestion-cuadros" class="hidden mb-8">
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold">Gestión de cuadros</h3>
+        <div class="flex items-center gap-3">
+            <button id="crearCuadroBtn" data-modal-target="modalCrearCuadro"
+                class="px-3 py-2 bg-emerald-600 rounded-md text-sm">+ Nuevo
+                cuadro</button>
+            <button class="px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-md text-sm">Exportar
+                CSV</button>
+        </div>
+    </div>
+
+    <!-- filtros -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4">
+        <div class="flex items-center gap-2">
+            <label class="text-sm text-zinc-400">Categoría</label>
+            <select id="admin-categoria" class="bg-zinc-800 rounded-md px-2 py-1 text-sm" data-hook="admin-categoria">
+                <option value="">Todas</option>
+                <!-- Backend: renderizar categorías -->
+            </select>
+
+            <label class="text-sm text-zinc-400 ml-3">Subcategoría</label>
+            <select id="admin-subcategoria" class="bg-zinc-800 rounded-md px-2 py-1 text-sm"
+                data-hook="admin-subcategoria">
+                <option value="">Todas</option>
+                <!-- Backend: renderizar subcategorias -->
+            </select>
+        </div>
+    </div>
+
+    <!-- Tabla de cuadros -->
+    <div class="bg-zinc-950 border border-zinc-800 rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <div id="tablaCuadros" class="w-full text-left">
+
+            </div>
+        </div>
+
+
+    </div>
+</section>
