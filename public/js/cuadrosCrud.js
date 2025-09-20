@@ -19,10 +19,24 @@ export async function CuadrosCRUD(notyf, modals) {
     const subcategoriaSelect = $("#cuadroSubcategoria");      // Select de subcategorías
     const formCrear = $("#formCrearCuadro");            // Formulario para crear cuadro
 
+    // Selectores para el cropper de imágenes
+    const cropperModal = $("#modalCropper");
+    const cropperImage = $("#cropperImage");
+    const cropConfirmBtn = $("#cropConfirmBtn");
+    // Selectores para los nuevos botones de acción del cropper
+    const zoomInBtn = $("#zoomInBtn");
+    const zoomOutBtn = $("#zoomOutBtn");
+    const rotateLeftBtn = $("#rotateLeftBtn");
+    const rotateRightBtn = $("#rotateRightBtn");
+
+
     // Selectores para la vista previa estilo catálogo (del modal)
     const previewCardImage = $("#previewCardImg");
     const previewCardTitle = $("#previewCardTitulo");
     const previewCardDescription = $("#previewCardDescripcion");
+
+    let cropper = null;
+    let croppedImageBlob = null;
 
     /* =====================================================
       🔹 FUNCIONES PRINCIPALES
@@ -135,16 +149,49 @@ export async function CuadrosCRUD(notyf, modals) {
      * @param {Event} e - El evento de cambio del input de archivo.
      */
     const handleImagePreview = (e) => {
+        console.log("🖼️ handleImagePreview: Se seleccionó una imagen.");
         const file = e.target.files[0];
-        const targetPreview = previewCardImage;
-
-        if (file && targetPreview) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                targetPreview.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
+        if (!file || !cropperImage || !cropperModal) {
+            console.warn("🖼️ handleImagePreview: No se encontró el archivo o los elementos del DOM para el cropper.");
+            return;
         }
+        console.log("🖼️ handleImagePreview: Archivo seleccionado:", file.name);
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            console.log("🖼️ FileReader.onload: Imagen cargada en el lector.");
+            // Destruir instancia anterior si existe
+            if (cropper) {
+                console.log("🖼️ FileReader.onload: Destruyendo instancia anterior de Cropper.");
+                cropper.destroy();
+            }
+            // Asignar la nueva imagen y abrir el modal
+            cropperImage.src = event.target.result;
+            console.log("🖼️ FileReader.onload: Abriendo modal de recorte...");
+            modals.openModal(cropperModal);
+
+            // Inicializar Cropper.js. Un pequeño delay puede ayudar a que el modal sea visible.
+            setTimeout(() => {
+                try {
+                    console.log("🖼️ setTimeout: Intentando inicializar Cropper.js...");                    
+                    cropper = new Cropper(cropperImage, {
+                        aspectRatio: 1, // Cuadrado. Cambia según necesites (e.g., 4/3, 16/9)
+                        viewMode: 1,
+                        autoCropArea: 0.9,
+                        responsive: true,
+                        movable: true,
+                        zoomable: true,
+                        dragMode: 'move',
+                    });
+                    console.log("🖼️ setTimeout: Cropper.js inicializado con éxito.", cropper);
+                } catch (err) {
+                    console.error("💥 ERROR al inicializar Cropper.js:", err);
+                    notyf.error("Error al iniciar el editor de imágenes. Revisa la consola.");
+                    modals.closeModal(cropperModal);
+                }
+            }, 200); // Coincide con la animación del modal
+        };
+        reader.readAsDataURL(file);
     };
 
     /**
@@ -154,6 +201,7 @@ export async function CuadrosCRUD(notyf, modals) {
         tituloModal.textContent = "Crear Cuadro";
         registrarCuadroBtn.textContent = "Crear";
         formCrear.reset();
+        croppedImageBlob = null;
         formCrear.id.value = ''; // Asegurarse de que el campo ID esté vacío
 
         // Resetear la vista previa del catálogo a su estado por defecto
@@ -172,6 +220,7 @@ export async function CuadrosCRUD(notyf, modals) {
         tituloModal.textContent = "Editar Cuadro";
         registrarCuadroBtn.textContent = "Guardar Cambios";
         formCrear.reset();
+        croppedImageBlob = null;
 
         // Inyectar datos en el formulario
         formCrear.id.value = data.id;
@@ -214,8 +263,18 @@ export async function CuadrosCRUD(notyf, modals) {
      */
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        console.log("📤 handleFormSubmit: Enviando formulario...");
 
         const formData = new FormData(formCrear);
+
+        // Si hay una imagen recortada, la usamos en lugar de la original.
+        if (croppedImageBlob) {
+            console.log("📤 handleFormSubmit: Añadiendo imagen recortada (blob) al FormData.");
+            formData.set('imagen', croppedImageBlob, 'cropped_image.png');
+        } else {
+            console.log("📤 handleFormSubmit: No hay imagen recortada. Se usará el input de archivo si existe.");
+        }
+
         const isEditing = !!formCrear.id.value;
 
         const url = isEditing ? `/api/cuadros/${formCrear.id.value}` : "/api/cuadros/crear";
@@ -309,6 +368,38 @@ export async function CuadrosCRUD(notyf, modals) {
 
     // Cambiar subcategorías al seleccionar una categoría
     categoriaSelect.addEventListener("change", (e) => getSubcategorias(e.target.value));
+
+    // Eventos para los botones de acción del cropper (zoom, rotar)
+    if (zoomInBtn) zoomInBtn.addEventListener('click', () => cropper && cropper.zoom(0.1));
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => cropper && cropper.zoom(-0.1));
+    if (rotateLeftBtn) rotateLeftBtn.addEventListener('click', () => cropper && cropper.rotate(-45));
+    if (rotateRightBtn) rotateRightBtn.addEventListener('click', () => cropper && cropper.rotate(45));
+
+    // Evento para confirmar el recorte de la imagen
+    if (cropConfirmBtn) {
+        cropConfirmBtn.addEventListener('click', () => {
+            console.log("🖱️ Botón 'Confirmar Recorte' presionado.");
+            if (!cropper) {
+                console.error("🖱️ Error: La instancia de Cropper no existe al confirmar.");
+                return;
+            }
+
+            console.log("🖱️ Obteniendo lienzo recortado...");
+            cropper.getCroppedCanvas({
+                width: 500, // Define el tamaño de la imagen final
+                height: 500,
+                imageSmoothingQuality: 'high',
+            }).toBlob((blob) => {
+                console.log("🖼️ toBlob callback: Se generó el blob de la imagen recortada.", blob);
+                croppedImageBlob = blob;
+                previewCardImage.src = URL.createObjectURL(blob);
+                console.log("🖼️ toBlob callback: Vista previa actualizada y modal de recorte cerrándose.");
+                modals.closeModal(cropperModal);
+                // Limpiar el input de archivo para no enviar el archivo original
+                formCrear.imagen.value = '';
+            }, 'image/png');
+        });
+    }
 
     /* =====================================================
        🔹 INICIALIZACIÓN DE TABLA CON TABULATOR

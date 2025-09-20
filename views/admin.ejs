@@ -1,4 +1,30 @@
-<div class="min-h-screen flex">
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArieX - Panel de Administración</title>
+
+    <!-- Tailwind -->
+    <link href="/css/output.css" rel="stylesheet">
+
+    <!-- Tabulator CSS -->
+    <link href="/lib/tabulator/tabulator.min.css" rel="stylesheet">
+    <link href="/lib/tabulator/tabulator_dark.css" rel="stylesheet">
+    <script src="/lib/tabulator/tabulator.min.js"></script>
+
+    <!-- notify -->
+    <link rel="stylesheet" href="/lib/notyf/notyf.min.css">
+    <script src="/lib/notyf/notyf.min.js"></script>
+
+    <!-- Cropper.js para el editor de imágenes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+</head>
+
+<body class="bg-zinc-900 text-gray-100">
+    <div class="min-h-screen flex">
     <!-- SIDEBAR -->
     <aside class="w-72 bg-zinc-950 border-r border-zinc-800 hidden md:flex flex-col">
         <div class="p-6 border-b border-zinc-800">
@@ -141,6 +167,8 @@
         window.currentUser = <%- JSON.stringify(user || null) %>;
     </script>
 
+    <script type="module" src="/js/main.js"></script>
+
     <!-- ADMIN PANEL NAV JS -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -219,3 +247,6 @@
 
         });
     </script>
+
+</body>
+</html>

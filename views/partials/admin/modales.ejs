@@ -314,4 +314,63 @@
     </div>
   </div>
 
+  <!-- Pon este código al final de tu <body>, junto a tus otros modales -->
+  <div id="modalCropper" role="dialog" class="fixed inset-0 z-50 overflow-y-auto hidden pointer-events-none">
+    <div class="flex items-center justify-center min-h-screen px-4">
+      <!-- Panel del modal -->
+      <div
+        class="relative w-full max-w-lg p-6 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl transform transition-all opacity-0 translate-y-6 pointer-events-auto">
+        <h3 class="text-lg font-medium text-white mb-4">Recortar Imagen</h3>
+
+        <!-- Contenedor para la imagen del cropper -->
+        <div class="img-container max-h-[60vh] mb-4 bg-black">
+          <img id="cropperImage" src="" alt="Imagen para recortar" style="max-width: 100%;">
+        </div>
+
+        <!-- ✅ AÑADE ESTE BLOQUE DE BOTONES -->
+        <div class="flex justify-center items-center gap-3 my-4">
+          <button id="zoomInBtn" title="Acercar"
+            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3h-6"></path>
+            </svg>
+          </button>
+          <button id="zoomOutBtn" title="Alejar"
+            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"></path>
+            </svg>
+          </button>
+          <button id="rotateLeftBtn" title="Girar a la izquierda"
+            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L8 9l9-5 1 8z"></path>
+            </svg>
+          </button>
+          <button id="rotateRightBtn" title="Girar a la derecha"
+            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
+            <svg class="w-5 h-5 transform -scale-x-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L8 9l9-5 1 8z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex justify-end gap-3 mt-4">
+          <button type="button" data-close="modalCropper"
+            class="px-4 py-2 text-sm font-medium text-zinc-300 bg-zinc-800 rounded-md hover:bg-zinc-700">
+            Cancelar
+          </button>
+          <button id="cropConfirmBtn" type="button"
+            class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-md hover:bg-emerald-700">
+            Confirmar Recorte
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>

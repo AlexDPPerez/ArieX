@@ -10,15 +10,6 @@
     <!-- Tailwind -->
     <link href="/css/output.css" rel="stylesheet">
 
-    <!-- Tabulator CSS -->
-    <link href="/lib/tabulator/tabulator.min.css" rel="stylesheet">
-    <link href="/lib/tabulator/tabulator_dark.css" rel="stylesheet">
-    <script src="/lib/tabulator/tabulator.min.js"></script>
-
-    <!-- notify -->
-    <link rel="stylesheet" href="/lib/notyf/notyf.min.css">
-    <script src="/lib/notyf/notyf.min.js"></script>
-
 </head>
 
 
@@ -83,31 +74,6 @@
         </div>
     </header>
 
-    <script>
-        // Toggle menú móvil y accesibilidad
-        const btn = document.getElementById('hamburgerBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const iconOpen = document.getElementById('iconOpen');
-        const iconClose = document.getElementById('iconClose');
-
-        btn.addEventListener('click', () => {
-            const expanded = btn.getAttribute('aria-expanded') === 'true';
-            btn.setAttribute('aria-expanded', String(!expanded));
-            mobileMenu.classList.toggle('hidden');
-            iconOpen.classList.toggle('hidden');
-            iconClose.classList.toggle('hidden');
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                mobileMenu.classList.add('hidden');
-                btn.setAttribute('aria-expanded', 'false');
-                iconOpen.classList.remove('hidden');
-                iconClose.classList.add('hidden');
-            }
-        });
-    </script>
-
     <main class="container mx-auto px-4 pb-12">
         <%- body %>
     </main>
@@ -124,15 +90,10 @@
                 </ul>
             </nav>
         </div>
-
-        <script>
-            // año dinámico
-            document.getElementById('year').textContent = new Date().getFullYear();
-        </script>
     </footer>
 
-    <script type="module" src="/js/main.js"></script>
-
+    <!-- Cargar el script dedicado para el sitio público -->
+    <script type="module" src="/js/public.js"></script>
 </body>
 
 </html>
