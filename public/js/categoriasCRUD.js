@@ -22,6 +22,10 @@ export async function CategoriasCRUD(notyf, modals) {
     const categoriaIdInput = $('#categoriaId');    // hidden input para el ID
     const categoriaNombre = $('#categoriaNombre'); // input del nombre de categoría
     const categoriaError = $('#categoriaNombreHelp');   // mensaje de error para categoría
+    // Selectores para el color
+    const colorPickerContainer = $('#colorPicker');
+    const categoriaColorInput = $('#categoriaColor'); // hidden input para el color
+
     const tablaCategorias = $('#tablaCategorias');           // tabla principal
     const tablaCategoriasBody = tablaCategorias.querySelector('tbody'); // Cuerpo de la tabla
 
@@ -30,9 +34,22 @@ export async function CategoriasCRUD(notyf, modals) {
     const subcatTableBody = $('#subcatTableBody'); // tbody donde se renderizan subcategorías
     const sinSubcat = $('#sinSubcat');             // mensaje "no hay subcategorías"
     const subcatError = $('#subcatHelp');         // error subcategoría
+    // Selectores para la imagen
+    const imagenInput = $('#categoriaImagen');
+    const imagenPreview = $('#categoriaImagenPreview');
     const crearModal = $('#modalCrearCategoria');       // El modal de creación
 
     let subcategorias = []; // Array que almacena strings de subcategorías
+    const coloresPredefinidos = [
+        '#4ade80', // green-400
+        '#22c55e', // green-500
+        '#facc15', // yellow-400
+        '#fb923c', // orange-400
+        '#f87171', // red-400
+        '#60a5fa', // blue-400
+        '#818cf8', // indigo-400
+        '#c084fc', // purple-400
+    ];
 
     /* =====================================================
        🔹 UTILIDADES
@@ -86,6 +103,13 @@ export async function CategoriasCRUD(notyf, modals) {
         // Limpia el valor del input de la nueva subcategoría.
         subcatInput.value = '';
         // Vacía el array que contiene las subcategorías.
+        // Limpia el color
+        if (categoriaColorInput) categoriaColorInput.value = '';
+        $$('.color-option.ring-2').forEach(el => el.classList.remove('ring-2', 'ring-white'));
+        // Limpia la imagen
+        if (imagenPreview) imagenPreview.src = '/uploads/default.png';
+
+
         subcategorias = [];
         // Vuelve a renderizar la tabla de subcategorías (que ahora estará vacía).
         renderSubcats();
@@ -226,6 +250,18 @@ export async function CategoriasCRUD(notyf, modals) {
         }
     });
 
+    // Evento para previsualizar la imagen de la categoría
+    if (imagenInput) {
+        imagenInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && imagenPreview) {
+                const reader = new FileReader();
+                reader.onload = (event) => imagenPreview.src = event.target.result;
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
     /* =====================================================
        🔹 MANEJADORES DE EVENTOS
        ===================================================== */
@@ -282,6 +318,8 @@ export async function CategoriasCRUD(notyf, modals) {
         if (categoriaIdInput) categoriaIdInput.value = data.id;
         categoriaNombre.value = data.nombre;
         subcategorias = data.subcategorias;
+        if (categoriaColorInput) categoriaColorInput.value = data.color || '';
+        if (imagenPreview) imagenPreview.src = data.imagen_url || '/uploads/default.png';
         
         renderSubcats();
     };
@@ -296,8 +334,10 @@ export async function CategoriasCRUD(notyf, modals) {
 
         const data = {
             id: row.cells[0].textContent.trim(),
-            nombre: row.cells[1].textContent.trim(),
-            subcategorias: row.cells[2].textContent.trim() === 'Sin subcategorías' ? [] : row.cells[2].textContent.trim().split(',').map(s => s.trim())
+            nombre: row.cells[3].textContent.trim(),
+            color: row.dataset.color, // Obtenemos el color del data-attribute de la fila
+            imagen_url: row.querySelector('img')?.src, // Obtener la URL de la imagen de la fila
+            subcategorias: row.cells[3].textContent.trim() === 'Sin subcategorías' ? [] : row.cells[3].textContent.trim().split(',').map(s => s.trim())
         };
         setupEditModal(data);
         modals.openModal(crearModal);
@@ -357,6 +397,20 @@ export async function CategoriasCRUD(notyf, modals) {
         }
     });
 
+    // Evento para el selector de color
+    if (colorPickerContainer) {
+        colorPickerContainer.addEventListener('click', (e) => {
+            const colorOption = e.target.closest('.color-option');
+            if (!colorOption) return;
+
+            // Quitar selección previa
+            $$('.color-option.ring-2').forEach(el => el.classList.remove('ring-2', 'ring-white'));
+            // Añadir selección actual
+            colorOption.classList.add('ring-2', 'ring-white');
+            // Guardar valor en el input hidden
+            categoriaColorInput.value = colorOption.dataset.color;
+        });
+    }
     /* =====================================================
        🔹 ENVÍO DEL FORMULARIO (SUBMIT)
        ===================================================== */
@@ -373,20 +427,18 @@ export async function CategoriasCRUD(notyf, modals) {
         const url = isEditing ? `/api/categorias/${id}` : '/api/categorias';
         const method = isEditing ? 'PUT' : 'POST';
         const actionText = isEditing ? 'actualizada' : 'creada';
-
-        const data = {
-            nombre: categoriaNombre.value.trim(),
-            subcategorias: subcategorias
-        };
+        
+        // Usamos FormData para poder enviar el archivo de imagen
+        const formData = new FormData(form);
 
         // 4. Enviar los datos a la API y manejar la respuesta.
         try {
             const res = await fetch(url, {
                 method: method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                // No se necesita 'Content-Type', el navegador lo pone automáticamente para FormData
+                body: formData
             });
-
+ 
             if (!res.ok) {
                 const errorData = await res.json().catch(() => null);
                 throw new Error(errorData?.message || `Error al ${isEditing ? 'actualizar' : 'crear'} la categoría`);
@@ -414,19 +466,25 @@ export async function CategoriasCRUD(notyf, modals) {
     function renderCategoriasTable(categoriasData) {
         tablaCategoriasBody.innerHTML = ''; // Limpiar el cuerpo de la tabla
         if (categoriasData.length === 0) {
-            tablaCategoriasBody.innerHTML = '<tr><td colspan="4" class="text-center p-4 text-zinc-500">No hay categorías para mostrar.</td></tr>';
+            tablaCategoriasBody.innerHTML = '<tr><td colspan="5" class="text-center p-4 text-zinc-500">No hay categorías para mostrar.</td></tr>';
             return;
         }
         categoriasData.forEach(cat => {
             const tr = document.createElement('tr');
             tr.className = 'transition-all duration-300';
+            tr.dataset.color = cat.color || ''; // Guardar el color en la fila para la edición
+
             // Solo admins y editores pueden ver los botones de acción
             const accionesHtml = (window.currentUser && (window.currentUser.rol === 'admin' || window.currentUser.rol === 'editor'))
                 ? `<button data-id="${cat.id}" class="btn-editar-categoria px-2 py-1 bg-zinc-800 rounded text-sm hover:bg-zinc-800 transition-colors duration-200">Editar</button>
                    <button data-id="${cat.id}" class="btn-eliminar-categoria px-2 py-1 bg-rose-600 rounded text-sm hover:bg-rose-700 transition-colors duration-200">Eliminar</button>`
                 : '';
+            const imagenHtml = `<img src="${cat.imagen_url || '/uploads/default.png'}" class="w-10 h-10 object-cover rounded-md" alt="Imagen de ${escapeHtml(cat.nombre)}">`;
+            const colorIndicator = cat.color ? `<div class="w-4 h-4 rounded-full" style="background-color: ${escapeHtml(cat.color)};"></div>` : '';
             tr.innerHTML = `
                 <td class="px-4 py-3 text-sm">${escapeHtml(String(cat.id))}</td>
+                <td class="px-4 py-3 text-sm">${imagenHtml}</td>
+                <td class="px-4 py-3 text-sm">${colorIndicator}</td>
                 <td class="px-4 py-3 text-sm font-medium">${escapeHtml(cat.nombre)}</td>
                 <td class="px-4 py-3 text-sm text-zinc-400">${escapeHtml(cat.subcategorias || 'Sin subcategorías')}</td>
                 <td class="px-4 py-2 text-right">${accionesHtml}</td>
@@ -441,6 +499,20 @@ export async function CategoriasCRUD(notyf, modals) {
         renderCategoriasTable(categoriasData);
     }
 
+    /** @description Renderiza los colores predefinidos en el modal. */
+    function renderColorPicker() {
+        if (!colorPickerContainer) return;
+        colorPickerContainer.innerHTML = '';
+        coloresPredefinidos.forEach(color => {
+            const colorEl = document.createElement('div');
+            colorEl.className = 'color-option w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110';
+            colorEl.style.backgroundColor = color;
+            colorEl.dataset.color = color;
+            colorEl.setAttribute('role', 'button');
+            colorEl.setAttribute('aria-label', `Seleccionar color ${color}`);
+            colorPickerContainer.appendChild(colorEl);
+        });
+    }
     // Carga inicial de datos
     reloadTableData();
 
@@ -450,4 +522,7 @@ export async function CategoriasCRUD(notyf, modals) {
     if (crearCategoriaBtn) {
         crearCategoriaBtn.addEventListener('click', setupCreateModal);
     }
+
+    // Renderizar el selector de colores una vez
+    renderColorPicker();
 }

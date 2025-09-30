@@ -1,15 +1,9 @@
-import {
-    crearUsuario,
-    obtenerUsuarios,
-   obtenerUsuario,
-    actualizarUsuario as actualizarUsuarioModel,
-    eliminarUsuario as eliminarUsuarioModel
-} from "../models/usuariosModel.js";
+import { usuariosModel } from "../models/index.js";
 
 // Obtener todos los usuarios
 export const obtenerTodosUsuarios = (req, res) => {
     try {
-        const usuarios = obtenerUsuarios();
+        const usuarios = usuariosModel.obtenerUsuarios();
         res.json(usuarios);
     } catch (error) {
         console.error("Error al obtener usuarios:", error);
@@ -31,7 +25,7 @@ export const crearNuevoUsuario = (req, res) => {
     }
 
     try {
-        const nuevoUsuario = crearUsuario({ nombre, password, rol, estado, avatar });
+        const nuevoUsuario = usuariosModel.crearUsuario({ nombre, password, rol, estado, avatar });
         res.status(201).json({ message: "Usuario creado con éxito", usuario: nuevoUsuario });
     } catch (error) {
         console.error("Error al crear usuario:", error);
@@ -53,7 +47,7 @@ export const actualizarUsuarioExistente = (req, res) => {
     }
 
     try {
-        const usuarioExistente = obtenerUsuario(id);
+        const usuarioExistente = usuariosModel.obtenerUsuario(id);
         if (!usuarioExistente) {
             return res.status(404).json({ message: "Usuario no encontrado." });
         }
@@ -64,7 +58,7 @@ export const actualizarUsuarioExistente = (req, res) => {
         // El objeto de actualización solo incluirá la contraseña si se proporcionó una nueva.
         const datosActualizados = { nombre, rol, estado, avatar };
         if (password) datosActualizados.password = password;
-        const success = actualizarUsuarioModel(id, datosActualizados);
+        const success = usuariosModel.actualizarUsuario(id, datosActualizados);
 
         if (success) {
             res.json({ message: "Usuario actualizado correctamente." });
@@ -81,7 +75,7 @@ export const actualizarUsuarioExistente = (req, res) => {
 export const eliminarUsuarioExistente = (req, res) => {
     const { id } = req.params;
     try {
-        const success = eliminarUsuarioModel(id);
+        const success = usuariosModel.eliminarUsuario(id);
         if (success) {
             res.json({ message: "Usuario eliminado correctamente." });
         } else {

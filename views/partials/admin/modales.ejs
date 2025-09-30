@@ -2,30 +2,50 @@
      MODALS WRAPPER (oculto por defecto)
      ========================= -->
 <div id="modals-root" class="fixed inset-0 z-50 hidden" aria-hidden="true">
-
   <!-- GLOBAL OVERLAY -->
-  <div id="modalOverlay" class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-200"></div>
+  <div
+    id="modalOverlay"
+    class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-200"
+  ></div>
 
   <!-- =========================
            CONFIRMAR (Confirm dialog)
            ========================= -->
-  <div id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle"
-    aria-describedby="confirmDesc" class="pointer-events-none fixed inset-0 flex items-center justify-center px-4 py-6">
+  <div
+    id="confirmModal"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="confirmTitle"
+    aria-describedby="confirmDesc"
+    class="pointer-events-none fixed inset-0 flex items-center justify-center px-4 py-6"
+  >
     <div
-      class="pointer-events-auto w-full max-w-md transform rounded-2xl bg-white shadow-2xl transition-transform duration-200 translate-y-4 opacity-0">
+      class="pointer-events-auto w-full max-w-md transform rounded-2xl bg-white shadow-2xl transition-transform duration-200 translate-y-4 opacity-0"
+    >
       <div class="px-6 py-5">
-        <h3 id="confirmTitle" class="text-lg font-semibold text-gray-800 text-center">¿Estás seguro?</h3>
+        <h3
+          id="confirmTitle"
+          class="text-lg font-semibold text-gray-800 text-center"
+        >
+          ¿Estás seguro?
+        </h3>
         <p id="confirmDesc" class="mt-3 text-sm text-gray-600 text-center">
           Esta acción no se puede deshacer. Confirma si deseas continuar.
         </p>
 
         <div class="mt-6 flex justify-center gap-3">
-          <button id="confirmCancelBtn" type="button"
-            class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button
+            id="confirmCancelBtn"
+            type="button"
+            class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
             Cancelar
           </button>
-          <button id="confirmOkBtn" type="button"
-            class="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+          <button
+            id="confirmOkBtn"
+            type="button"
+            class="rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
             Confirmar
           </button>
         </div>
@@ -36,56 +56,142 @@
   <!-- =========================
            MODAL: CREAR / EDITAR CATEGORÍA
            ========================= -->
-  <div id="modalCrearCategoria" role="dialog" aria-modal="true" aria-labelledby="crearCategoriaTitle"
-    class="pointer-events-none fixed inset-0 flex items-center justify-center px-4 py-6">
+  <div
+    id="modalCrearCategoria"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="crearCategoriaTitle"
+    class="pointer-events-none fixed inset-0 flex items-center justify-center px-4 py-6"
+  >
     <div
-      class="pointer-events-auto w-full max-w-2xl transform overflow-hidden rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl transition-all duration-200 translate-y-6 opacity-0">
+      class="pointer-events-auto w-full max-w-2xl transform overflow-hidden rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl transition-all duration-200 translate-y-6 opacity-0"
+    >
       <!-- Header -->
-      <div class="flex items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4">
+      <div
+        class="flex items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4"
+      >
         <div class="flex items-center gap-3">
-          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg
+            class="h-6 w-6 shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
             <path d="M3 7v4a2 2 0 0 0 2 2h3"></path>
             <path d="M21 17v-4a2 2 0 0 0-2-2h-3"></path>
             <circle cx="12" cy="12" r="3"></circle>
           </svg>
-          <h2 id="crearCategoriaTitle" class="text-lg font-semibold">Nueva categoría</h2>
+          <h2 id="crearCategoriaTitle" class="text-lg font-semibold">
+            Nueva categoría
+          </h2>
         </div>
 
-        <button id="closeCrearCategoria" aria-label="Cerrar" type="button"
-          class="rounded-md px-3 py-1 text-2xl leading-none text-zinc-300 hover:bg-zinc-800/50 focus:outline-none focus:ring-2 focus:ring-green-500">
+        <button
+          id="closeCrearCategoria"
+          aria-label="Cerrar"
+          type="button"
+          class="rounded-md px-3 py-1 text-2xl leading-none text-zinc-300 hover:bg-zinc-800/50 focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
           &times;
         </button>
       </div>
 
       <!-- Form -->
-      <form id="formCrearCategoria" method="POST" enctype="multipart/form-data" class="space-y-6 px-6 py-5">
-        <input type="hidden" name="id" id="categoriaId">
+      <form
+        id="formCrearCategoria"
+        method="POST"
+        enctype="multipart/form-data"
+        class="space-y-6 px-6 py-5"
+      >
+        <input type="hidden" name="id" id="categoriaId" />
         <!-- Nombre -->
         <div>
-          <label for="categoriaNombre" class="mb-1 block text-sm font-medium text-zinc-300">Nombre</label>
-          <input id="categoriaNombre" name="categoria" required
+          <label
+            for="categoriaNombre"
+            class="mb-1 block text-sm font-medium text-zinc-300"
+            >Nombre</label
+          >
+          <input
+            id="categoriaNombre"
+            name="nombre"
+            required
             class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-green-500"
-            placeholder="Ej. Panadería / Electrónica">
-          <p id="categoriaNombreHelp" class="mt-1 text-xs text-zinc-400">Nombre que se mostrará en la lista.</p>
+            placeholder="Ej. Panadería / Electrónica"
+          />
+          <p id="categoriaNombreHelp" class="mt-1 text-xs text-zinc-400">
+            Nombre que se mostrará en la lista.
+          </p>
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-medium text-zinc-300 mb-2"
+            >Color de la Etiqueta</label
+          >
+          <div id="colorPicker" class="flex flex-wrap gap-3">
+            <!-- Los círculos de colores se renderizarán aquí con JavaScript -->
+          </div>
+          <input type="hidden" id="categoriaColor" name="color" />
+          <p class="mt-2 text-xs text-zinc-500">
+            Selecciona un color para la categoría. Este se usará en las
+            etiquetas del catálogo.
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-zinc-300 mb-2"
+            >Imagen de la Categoría</label
+          >
+          <div class="flex items-center gap-4">
+            <img
+              id="categoriaImagenPreview"
+              src="/uploads/default.png"
+              alt="Previsualización"
+              class="w-10 h-10 rounded-md object-cover bg-zinc-800"
+            />
+            <input
+              type="file"
+              id="categoriaImagen"
+              name="imagen"
+              accept="image/*"
+              class="block w-full text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-zinc-700 file:text-zinc-200 hover:file:bg-zinc-600"
+            />
+          </div>
         </div>
 
         <!-- Subcategorías -->
         <div>
-          <label for="subcategoriaInput" class="mb-1 block text-sm font-medium text-zinc-300">Añadir
-            subcategoría</label>
+          <label
+            for="subcategoriaInput"
+            class="mb-1 block text-sm font-medium text-zinc-300"
+            >Añadir subcategoría</label
+          >
           <div class="flex gap-3">
-            <input id="subcategoriaInput" type="text" placeholder="Nombre subcategoría"
-              class="flex-1 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-green-500">
-            <button id="btnAgregarSubcat" type="button"
-              class="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <input
+              id="subcategoriaInput"
+              type="text"
+              placeholder="Nombre subcategoría"
+              class="flex-1 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+            <button
+              id="btnAgregarSubcat"
+              type="button"
+              class="inline-flex items-center gap-2 rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
               Agregar
             </button>
           </div>
-          <p id="subcatHelp" class="mt-1 text-xs text-zinc-400">Presiona Enter o "Agregar" para añadir a la lista.</p>
+          <p id="subcatHelp" class="mt-1 text-xs text-zinc-400">
+            Presiona Enter o "Agregar" para añadir a la lista.
+          </p>
 
           <div class="mt-4">
-            <div class="overflow-hidden rounded-md border border-zinc-800 bg-zinc-900">
+            <div
+              class="overflow-hidden rounded-md border border-zinc-800 bg-zinc-900"
+            >
               <table class="w-full table-auto text-sm">
                 <thead class="bg-zinc-950/30">
                   <tr>
@@ -97,19 +203,29 @@
                   <!-- filas dinámicas -->
                 </tbody>
               </table>
-              <p id="sinSubcat" class="px-4 py-3 text-xs text-zinc-400">No hay subcategorías añadidas.</p>
+              <p id="sinSubcat" class="px-4 py-3 text-xs text-zinc-400">
+                No hay subcategorías añadidas.
+              </p>
             </div>
           </div>
         </div>
 
         <!-- Footer -->
-        <div class="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-800 pt-4">
-          <button id="cancelCrearCategoria" type="button"
-            class="rounded-md bg-zinc-700 px-4 py-2 text-sm font-medium hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+        <div
+          class="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-800 pt-4"
+        >
+          <button
+            id="cancelCrearCategoria"
+            type="button"
+            class="rounded-md bg-zinc-700 px-4 py-2 text-sm font-medium hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
             Cancelar
           </button>
-          <button id="submitCrearCategoria" type="submit"
-            class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button
+            id="submitCrearCategoria"
+            type="submit"
+            class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
             Guardar categoría
           </button>
         </div>
@@ -120,61 +236,123 @@
   <!-- =========================
            MODAL: CREAR USUARIO
            ========================= -->
-  <div id="modalCrearUsuario" role="dialog" aria-modal="true" aria-labelledby="crearUsuarioTitle"
-    class="pointer-events-none fixed inset-0 flex items-center justify-center px-4 py-6">
+  <div
+    id="modalCrearUsuario"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="crearUsuarioTitle"
+    class="pointer-events-none fixed inset-0 flex items-center justify-center px-4 py-6"
+  >
     <div
-      class="pointer-events-auto w-full max-w-2xl transform overflow-hidden rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl transition-all duration-200 translate-y-6 opacity-0">
+      class="pointer-events-auto w-full max-w-2xl transform overflow-hidden rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl transition-all duration-200 translate-y-6 opacity-0"
+    >
       <!-- Header -->
-      <div class="flex items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4">
-        <h2 id="crearUsuarioTitle" class="text-lg font-semibold">Nuevo usuario</h2>
-        <button id="closeCrearUsuario" aria-label="Cerrar" type="button"
-          class="rounded-md px-3 py-1 text-2xl leading-none text-zinc-300 hover:bg-zinc-800/50 focus:outline-none focus:ring-2 focus:ring-green-500">
+      <div
+        class="flex items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4"
+      >
+        <h2 id="crearUsuarioTitle" class="text-lg font-semibold">
+          Nuevo usuario
+        </h2>
+        <button
+          id="closeCrearUsuario"
+          aria-label="Cerrar"
+          type="button"
+          class="rounded-md px-3 py-1 text-2xl leading-none text-zinc-300 hover:bg-zinc-800/50 focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
           &times;
         </button>
       </div>
 
       <!-- Form -->
-      <form id="formCrearUsuario" method="POST" enctype="multipart/form-data" class="space-y-6 px-6 py-5">
-        <input type="hidden" name="id" id="usuarioId">
+      <form
+        id="formCrearUsuario"
+        method="POST"
+        enctype="multipart/form-data"
+        class="space-y-6 px-6 py-5"
+      >
+        <input type="hidden" name="id" id="usuarioId" />
         <div class="flex items-start gap-6">
           <!-- Avatar Preview -->
           <div class="flex-shrink-0 text-center">
-            <label class="block text-sm font-medium text-zinc-300 mb-1">Avatar</label>
-            <img id="avatarPreview" src="/uploads/avatars/default.png" alt="Vista previa del Avatar"
-              class="w-24 h-24 rounded-full object-cover bg-zinc-800 border-2 border-zinc-700">
+            <label class="block text-sm font-medium text-zinc-300 mb-1"
+              >Avatar</label
+            >
+            <img
+              id="avatarPreview"
+              src="/uploads/avatars/default.png"
+              alt="Vista previa del Avatar"
+              class="w-24 h-24 rounded-full object-cover bg-zinc-800 border-2 border-zinc-700"
+            />
           </div>
           <!-- Form Fields -->
           <div class="flex-grow space-y-4">
             <div>
-              <label for="usuarioNombre" class="block text-sm font-medium text-zinc-300">Nombre</label>
-              <input id="usuarioNombre" name="nombre" required
+              <label
+                for="usuarioNombre"
+                class="block text-sm font-medium text-zinc-300"
+                >Nombre</label
+              >
+              <input
+                id="usuarioNombre"
+                name="nombre"
+                required
                 class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Nombre completo">
+                placeholder="Nombre completo"
+              />
             </div>
             <!-- Añade esto dentro de tu <form id="formCrearUsuario"> -->
             <div>
-              <label for="usuarioPassword" class="block text-sm font-medium text-zinc-300">Contraseña</label>
-              <input type="password" name="password" id="usuarioPassword"
+              <label
+                for="usuarioPassword"
+                class="block text-sm font-medium text-zinc-300"
+                >Contraseña</label
+              >
+              <input
+                type="password"
+                name="password"
+                id="usuarioPassword"
                 class="mt-1 block w-full bg-zinc-800 border-zinc-700 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                placeholder="Dejar en blanco para no cambiar">
-              <p class="mt-1 text-xs text-zinc-500">Mínimo 4 caracteres. Al editar, déjalo en blanco si no quieres
-                cambiar la contraseña.</p>
+                placeholder="Dejar en blanco para no cambiar"
+              />
+              <p class="mt-1 text-xs text-zinc-500">
+                Mínimo 4 caracteres. Al editar, déjalo en blanco si no quieres
+                cambiar la contraseña.
+              </p>
             </div>
 
             <div>
-              <label for="usuarioAvatar" class="block text-sm font-medium text-zinc-300">Subir nuevo avatar
-                (opcional)</label>
-              <input id="usuarioAvatar" name="avatar" type="file" accept="image/*" class="mt-1 text-sm">
-              <p class="mt-1 text-xs text-zinc-400">JPG/PNG/WebP — máximo 5MB.</p>
+              <label
+                for="usuarioAvatar"
+                class="block text-sm font-medium text-zinc-300"
+                >Subir nuevo avatar (opcional)</label
+              >
+              <input
+                id="usuarioAvatar"
+                name="avatar"
+                type="file"
+                accept="image/*"
+                class="mt-1 text-sm"
+              />
+              <p class="mt-1 text-xs text-zinc-400">
+                JPG/PNG/WebP — máximo 5MB.
+              </p>
             </div>
           </div>
         </div>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label for="usuarioRol" class="block text-sm font-medium text-zinc-300">Rol</label>
-            <select id="usuarioRol" name="rol" required
-              class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            <label
+              for="usuarioRol"
+              class="block text-sm font-medium text-zinc-300"
+              >Rol</label
+            >
+            <select
+              id="usuarioRol"
+              name="rol"
+              required
+              class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
               <option value="" disabled selected>Selecciona un rol</option>
               <option value="admin">Administrador</option>
               <option value="editor">Editor</option>
@@ -182,9 +360,17 @@
             </select>
           </div>
           <div>
-            <label for="usuarioEstado" class="block text-sm font-medium text-zinc-300">Estado</label>
-            <select id="usuarioEstado" name="estado" required
-              class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+            <label
+              for="usuarioEstado"
+              class="block text-sm font-medium text-zinc-300"
+              >Estado</label
+            >
+            <select
+              id="usuarioEstado"
+              name="estado"
+              required
+              class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
               <option value="" disabled selected>Selecciona un estado</option>
               <option value="activo">Activo</option>
               <option value="inactivo">Inactivo</option>
@@ -193,12 +379,18 @@
         </div>
 
         <div class="flex items-center gap-3 pt-4 border-t border-zinc-800">
-          <button id="cancelCrearUsuario" type="button"
-            class="rounded-md bg-zinc-700 px-4 py-2 text-sm font-medium hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button
+            id="cancelCrearUsuario"
+            type="button"
+            class="rounded-md bg-zinc-700 px-4 py-2 text-sm font-medium hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
             Cancelar
           </button>
-          <button id="submitCrearUsuario" type="submit"
-            class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button
+            id="submitCrearUsuario"
+            type="submit"
+            class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
             Crear usuario
           </button>
         </div>
@@ -209,71 +401,147 @@
   <!-- =========================
            MODAL: CREAR / EDITAR CUADRO
            ========================= -->
-  <div id="modalCrearCuadro" role="dialog" aria-modal="true" aria-labelledby="crearCuadroTitle"
-    class="pointer-events-none fixed inset-0 flex items-center justify-center px-4 py-6">
+  <div
+    id="modalCrearCuadro"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="crearCuadroTitle"
+    class="pointer-events-none fixed inset-0 flex items-center justify-center px-4 py-6"
+  >
     <div
-      class="pointer-events-auto w-full max-w-6xl transform transition-all duration-200 translate-y-6 opacity-0 flex items-start gap-6">
-
+      class="pointer-events-auto w-full max-w-6xl transform transition-all duration-200 translate-y-6 opacity-0 flex items-start gap-6"
+    >
       <!-- Panel 1: Formulario -->
-      <div class="w-full max-w-2xl overflow-hidden rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl flex-1">
+      <div
+        class="w-full max-w-2xl overflow-hidden rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl flex-1"
+      >
         <!-- Header -->
-        <div class="flex items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4">
-          <h2 id="crearCuadroTitle" class="text-lg font-semibold">Nuevo cuadro</h2>
-          <button id="closeCrearCuadro" aria-label="Cerrar" type="button"
-            class="rounded-md px-3 py-1 text-2xl leading-none text-zinc-300 hover:bg-zinc-800/50 focus:outline-none focus:ring-2 focus:ring-green-500">
+        <div
+          class="flex items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4"
+        >
+          <h2 id="crearCuadroTitle" class="text-lg font-semibold">
+            Nuevo cuadro
+          </h2>
+          <button
+            id="closeCrearCuadro"
+            aria-label="Cerrar"
+            type="button"
+            class="rounded-md px-3 py-1 text-2xl leading-none text-zinc-300 hover:bg-zinc-800/50 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
             &times;
           </button>
         </div>
 
         <!-- Form -->
-        <form id="formCrearCuadro" method="POST" enctype="multipart/form-data" class="space-y-6 px-6 py-5">
-          <input type="hidden" name="id" id="cuadroId">
+        <form
+          id="formCrearCuadro"
+          method="POST"
+          enctype="multipart/form-data"
+          class="space-y-6 px-6 py-5"
+        >
+          <input type="hidden" name="id" id="cuadroId" />
 
           <div>
-            <label for="cuadroTitulo" class="block text-sm font-medium text-zinc-300">Título</label>
-            <input id="cuadroTitulo" name="titulo" required
+            <label
+              for="cuadroTitulo"
+              class="block text-sm font-medium text-zinc-300"
+              >Título</label
+            >
+            <input
+              id="cuadroTitulo"
+              name="titulo"
+              required
               class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Nombre de la obra">
+              placeholder="Nombre de la obra"
+            />
           </div>
 
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label for="cuadroCategoria" class="block text-sm font-medium text-zinc-300">Categoría</label>
-              <select id="cuadroCategoria" name="categoria"
-                class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                <option value="" disabled selected>Selecciona una categoría</option>
+              <label
+                for="cuadroCategoria"
+                class="block text-sm font-medium text-zinc-300"
+                >Categoría</label
+              >
+              <select
+                id="cuadroCategoria"
+                name="categoria"
+                class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+              >
+                <option value="" disabled selected>
+                  Selecciona una categoría
+                </option>
               </select>
             </div>
             <div>
-              <label for="cuadroSubcategoria" class="block text-sm font-medium text-zinc-300">Subcategoría</label>
-              <select id="cuadroSubcategoria" name="subcategoria"
+              <label
+                for="cuadroSubcategoria"
+                class="block text-sm font-medium text-zinc-300"
+                >Subcategoría</label
+              >
+              <select
+                id="cuadroSubcategoria"
+                name="subcategoria"
                 class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                disabled>
+                disabled
+              >
                 <option value="">Ninguna categoría seleccionada</option>
               </select>
             </div>
           </div>
 
           <div>
-            <label for="cuadroDescripcion" class="block text-sm font-medium text-zinc-300">Descripción</label>
-            <textarea id="cuadroDescripcion" name="descripcion" rows="3"
+            <label
+              for="cuadroDescripcion"
+              class="block text-sm font-medium text-zinc-300"
+              >Descripción</label
+            >
+            <textarea
+              id="cuadroDescripcion"
+              name="descripcion"
+              rows="3"
               class="w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Pequeña descripción..."></textarea>
+              placeholder="Pequeña descripción..."
+            ></textarea>
           </div>
 
           <div>
-            <label for="cuadroImagen" class="block text-sm font-medium text-zinc-300">Imagen (jpg/png/webp)</label>
-            <input id="cuadroImagen" name="imagen" type="file" accept="image/*" class="mt-1 text-sm">
-            <p class="mt-1 text-xs text-zinc-400">Tamaño máximo recomendado: 5MB.</p>
+            <label
+              for="cuadroImagenes"
+              class="block text-sm font-medium text-zinc-300"
+              >Imágenes (jpg/png/webp)</label
+            >
+            <input
+              id="cuadroImagenes"
+              name="imagenes"
+              type="file"
+              accept="image/*"
+              multiple
+              class="mt-1 text-sm"
+            />
+            <p class="mt-1 text-xs text-zinc-400">
+              Tamaño máximo recomendado: 5MB.
+            </p>
+            <!-- Contenedor para previsualizar y gestionar imágenes -->
+            <div id="imagePreviewContainer" class="mt-4 flex flex-wrap gap-4">
+              <!-- Las imágenes se añadirán aquí con JS -->
+            </div>
           </div>
 
           <div class="flex items-center gap-3 pt-4 border-t border-zinc-800">
-            <button id="cancelCrearCuadro" type="button" data-close-button="modalCrearCuadro"
-              class="rounded-md bg-zinc-700 px-4 py-2 text-sm font-medium hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <button
+              id="cancelCrearCuadro"
+              type="button"
+              data-close-button="modalCrearCuadro"
+              class="rounded-md bg-zinc-700 px-4 py-2 text-sm font-medium hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
               Cancelar
             </button>
-            <button id="submitCrearCuadro" type="submit"
-              class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <button
+              id="submitCrearCuadro"
+              type="submit"
+              class="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
               Guardar cuadro
             </button>
           </div>
@@ -281,96 +549,184 @@
       </div>
 
       <!-- Panel 2: Vista Previa -->
-      <div class="w-full max-w-sm rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl flex-shrink-0">
-        <div class="flex items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4">
+      <div
+        class="w-full max-w-sm rounded-2xl bg-zinc-900 text-zinc-100 shadow-2xl flex-shrink-0"
+      >
+        <div
+          class="flex items-center justify-between gap-3 border-b border-zinc-800 px-6 py-4"
+        >
           <h4 class="text-lg font-semibold">Vista Previa</h4>
         </div>
         <div class="p-6">
-          <article id="cuadroPreview" class="bg-zinc-900 rounded-lg overflow-hidden">
+          <article
+            id="cuadroPreview"
+            class="bg-zinc-900 rounded-lg overflow-hidden"
+          >
             <figure class="relative w-full h-56 bg-zinc-800">
-              <img id="previewCardImg" src="/uploads/default.png" alt="Vista previa del cuadro"
-                class="w-full h-full object-cover" />
+              <img
+                id="previewCardImg"
+                src="/uploads/default.png"
+                alt="Vista previa del cuadro"
+                class="w-full h-full object-cover"
+              />
             </figure>
             <div class="p-4">
-              <h3 id="previewCardTitulo" class="text-lg font-medium text-gray-100 truncate">
+              <h3
+                id="previewCardTitulo"
+                class="text-lg font-medium text-gray-100 truncate"
+              >
                 Título del cuadro
               </h3>
-              <p id="previewCardDescripcion" class="text-sm text-gray-400 mt-1 h-10 overflow-hidden">
+              <p
+                id="previewCardDescripcion"
+                class="text-sm text-gray-400 mt-1 h-10 overflow-hidden"
+              >
                 Descripción del cuadro aparecerá aquí.
               </p>
               <div class="mt-3 flex items-center justify-between">
                 <div class="flex gap-2">
-                  <button type="button"
-                    class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm opacity-50 cursor-not-allowed">Ver</button>
-                  <button type="button"
-                    class="px-3 py-1 border border-gray-700 text-gray-100 rounded-md text-sm opacity-50 cursor-not-allowed">Solicitar</button>
+                  <button
+                    type="button"
+                    class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm opacity-50 cursor-not-allowed"
+                  >
+                    Ver
+                  </button>
+                  <button
+                    type="button"
+                    class="px-3 py-1 border border-gray-700 text-gray-100 rounded-md text-sm opacity-50 cursor-not-allowed"
+                  >
+                    Solicitar
+                  </button>
                 </div>
               </div>
             </div>
           </article>
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- Pon este código al final de tu <body>, junto a tus otros modales -->
-  <div id="modalCropper" role="dialog" class="fixed inset-0 z-50 overflow-y-auto hidden pointer-events-none">
+  <div
+    id="modalCropper"
+    role="dialog"
+    class="fixed inset-0 z-50 overflow-y-auto hidden pointer-events-none"
+  >
     <div class="flex items-center justify-center min-h-screen px-4">
       <!-- Panel del modal -->
       <div
-        class="relative w-full max-w-lg p-6 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl transform transition-all opacity-0 translate-y-6 pointer-events-auto">
+        class="relative w-full max-w-lg p-6 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl transform transition-all opacity-0 translate-y-6 pointer-events-auto"
+      >
         <h3 class="text-lg font-medium text-white mb-4">Recortar Imagen</h3>
 
         <!-- Contenedor para la imagen del cropper -->
         <div class="img-container max-h-[60vh] mb-4 bg-black">
-          <img id="cropperImage" src="" alt="Imagen para recortar" style="max-width: 100%;">
+          <img
+            id="cropperImage"
+            src=""
+            alt="Imagen para recortar"
+            style="max-width: 100%"
+          />
         </div>
 
         <!-- ✅ AÑADE ESTE BLOQUE DE BOTONES -->
         <div class="flex justify-center items-center gap-3 my-4">
-          <button id="zoomInBtn" title="Acercar"
-            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3h-6"></path>
+          <button
+            id="zoomInBtn"
+            title="Acercar"
+            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3h-6"
+              ></path>
             </svg>
           </button>
-          <button id="zoomOutBtn" title="Alejar"
-            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"></path>
+          <button
+            id="zoomOutBtn"
+            title="Alejar"
+            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"
+              ></path>
             </svg>
           </button>
-          <button id="rotateLeftBtn" title="Girar a la izquierda"
-            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L8 9l9-5 1 8z"></path>
+          <button
+            id="rotateLeftBtn"
+            title="Girar a la izquierda"
+            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 15l-2 5L8 9l9-5 1 8z"
+              ></path>
             </svg>
           </button>
-          <button id="rotateRightBtn" title="Girar a la derecha"
-            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors">
-            <svg class="w-5 h-5 transform -scale-x-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L8 9l9-5 1 8z"></path>
+          <button
+            id="rotateRightBtn"
+            title="Girar a la derecha"
+            class="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700 transition-colors"
+          >
+            <svg
+              class="w-5 h-5 transform -scale-x-100"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 15l-2 5L8 9l9-5 1 8z"
+              ></path>
             </svg>
           </button>
         </div>
 
         <!-- Botones de acción -->
         <div class="flex justify-end gap-3 mt-4">
-          <button type="button" data-close="modalCropper"
-            class="px-4 py-2 text-sm font-medium text-zinc-300 bg-zinc-800 rounded-md hover:bg-zinc-700">
+          <button
+            type="button"
+            data-close="modalCropper"
+            class="px-4 py-2 text-sm font-medium text-zinc-300 bg-zinc-800 rounded-md hover:bg-zinc-700"
+          >
             Cancelar
           </button>
-          <button id="cropConfirmBtn" type="button"
-            class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-md hover:bg-emerald-700">
+          <button
+            id="cropConfirmBtn"
+            type="button"
+            class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-md hover:bg-emerald-700"
+          >
             Confirmar Recorte
           </button>
         </div>
       </div>
     </div>
   </div>
-
-
 </div>

@@ -1,0 +1,67 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+
+        <!-- Columna de la Galería de Imágenes -->
+        <div class="w-full">
+            <!-- Imagen Principal -->
+            <div class="bg-zinc-800 rounded-lg overflow-hidden aspect-square mb-4">
+                <img 
+                    id="mainImage"
+                    src="<%= (cuadro.imagenes && cuadro.imagenes.length > 0) ? cuadro.imagenes[0] : '/uploads/default.png' %>" 
+                    alt="Imagen de <%= cuadro.titulo %>" 
+                    class="w-full h-full object-cover"
+                >
+            </div>
+            <!-- Galería de Miniaturas -->
+            <% if (cuadro.imagenes && cuadro.imagenes.length > 1) { %>
+            <div id="thumbnailGallery" class="grid grid-cols-5 gap-2">
+                <% cuadro.imagenes.forEach(imgUrl => { %>
+                    <div class="aspect-square bg-zinc-800 rounded-md overflow-hidden cursor-pointer border-2 border-transparent hover:border-emerald-500 transition">
+                        <img 
+                            src="<%= imgUrl %>" 
+                            alt="Miniatura de <%= cuadro.titulo %>" 
+                            class="w-full h-full object-cover thumbnail-img"
+                            data-full-src="<%= imgUrl %>"
+                        >
+                    </div>
+                <% }) %>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Columna de Información y Acciones -->
+        <div class="flex flex-col h-full">
+            <div class="bg-zinc-900 p-6 rounded-lg border border-zinc-800 flex-grow">
+                
+                <!-- Categoría y Subcategoría -->
+                <div class="text-sm text-zinc-400 mb-2">
+                    <a href="/catalogo?categoria=<%= cuadro.categoria %>" class="hover:underline"><%= cuadro.categoria %></a>
+                    <span class="mx-2">/</span>
+                    <a href="/catalogo?subcategoria=<%= cuadro.subcategoria %>" class="hover:underline"><%= cuadro.subcategoria %></a>
+                </div>
+
+                <!-- Título del Producto -->
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-4"><%= cuadro.titulo %></h1>
+
+                <!-- Descripción -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-white mb-2">Descripción</h2>
+                    <div id="description-wrapper" class="relative">
+                        <p id="product-description" class="text-zinc-300 leading-relaxed line-clamp-5 transition-all duration-300">
+                            <%- (cuadro.descripcion || 'Este cuadro no tiene una descripción detallada.').replace(/\n/g, '<br>') %>
+                        </p>
+                        <button id="read-more-btn" class="text-emerald-400 hover:underline text-sm mt-2 font-semibold hidden">Ver más</button>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="space-y-3">
+                    
+                    <button class="w-full bg-zinc-700 text-white font-semibold py-3 rounded-md hover:bg-zinc-600 transition-colors duration-200">
+                        Contactar por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

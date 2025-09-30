@@ -27,10 +27,10 @@ router.get("/api/cuadros", isAuthenticated, todosLosCuadros);
 //obtener cuadros por categoría
 router.get("/api/cuadros/categoria", isAuthenticated, CuadrosPorCategoria);
 //crear un nuevo cuadro
-router.post("/api/cuadros/crear", isAuthenticated, isAdminOrEditor, upload.single("imagen") ,subirCuadro);
+router.post("/api/cuadros/crear", isAuthenticated, isAdminOrEditor, upload.array("imagenes") ,subirCuadro);
 //eliminar un cuadro por su id
 router.delete("/api/cuadros/:id", isAuthenticated, isAdminOrEditor, eliminarCuadro);
 //actualizar un cuadro por su id
-router.put("/api/cuadros/:id", isAuthenticated, isAdminOrEditor, upload.single("imagen"), actualizarCuadro)
+router.put("/api/cuadros/:id", isAuthenticated, isAdminOrEditor, upload.array("imagenes"), actualizarCuadro)
 
 export default router; 

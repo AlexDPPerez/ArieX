@@ -1,11 +1,24 @@
 import db from "../config/db.js";
 
 // Crear un nuevo cuadro
-export function crearCuadro({ titulo, descripcion, imagen, subcategoria }) {
-    const stmt = db.prepare(`INSERT INTO cuadros (titulo, descripcion, imagen, subcategoria_id) VALUES (?, ?, ?, ?)`);
-    const info = stmt.run(titulo, descripcion, imagen, subcategoria);
-    return { id: info.lastInsertRowid, titulo, descripcion, imagen, subcategoria };
-}
+export function crearCuadro({ titulo, descripcion, subcategoria, imagenes }) {
+    const transaction = db.transaction(({ titulo, descripcion, subcategoria, imagenes }) => {
+        // 1. Insertar el cuadro principal
+        const cuadroStmt = db.prepare(`INSERT INTO cuadros (titulo, descripcion, subcategoria_id) VALUES (?, ?, ?)`);
+        const info = cuadroStmt.run(titulo, descripcion, subcategoria);
+        const cuadroId = info.lastInsertRowid;
+
+        // 2. Insertar las imágenes asociadas
+        if (cuadroId && imagenes && imagenes.length > 0) {
+            const imgStmt = db.prepare(`INSERT INTO cuadro_imagenes (cuadro_id, imagen_url, orden) VALUES (?, ?, ?)`);
+            imagenes.forEach((imgUrl, index) => {
+                imgStmt.run(cuadroId, imgUrl, index);
+            });
+        }
+        return { id: cuadroId };
+    });
+    return transaction({ titulo, descripcion, subcategoria, imagenes });
+} 
 
 // Obtener todos los cuadros con sus categorías y subcategorías
 export function obtenerCuadros() {
@@ -14,11 +27,19 @@ export function obtenerCuadros() {
             c.id, 
             c.titulo, 
             c.descripcion, 
-            c.imagen, 
+            (
+                SELECT imagen_url FROM cuadro_imagenes 
+                WHERE cuadro_id = c.id ORDER BY orden ASC LIMIT 1
+            ) as imagen,
+            (
+                SELECT GROUP_CONCAT(imagen_url) FROM cuadro_imagenes 
+                WHERE cuadro_id = c.id ORDER BY orden ASC
+            ) as imagenes,
             s.id AS subcategoria_id,
             s.nombre AS subcategoria, 
             cat.id AS categoria_id,
-            cat.nombre AS categoria
+            cat.nombre AS categoria,
+            cat.color AS categoria_color
         FROM cuadros c
         JOIN subcategorias s ON c.subcategoria_id = s.id
         JOIN categorias cat ON s.categoria_id = cat.id
@@ -42,8 +63,23 @@ ORDER BY creado_en DESC;`);
 
 // Obtener un cuadro por su ID
 export function obtenerCuadro(id) {
-    const stmt = db.prepare(`SELECT * FROM cuadros WHERE id = ? AND is_deleted = 0`);
-    return stmt.get(id);
+    const stmt = db.prepare(`
+        SELECT 
+            c.id, 
+            c.titulo, 
+            c.descripcion, 
+            s.nombre AS subcategoria, 
+            cat.nombre AS categoria,
+            cat.color AS categoria_color,
+            (
+                SELECT GROUP_CONCAT(imagen_url) 
+                FROM cuadro_imagenes WHERE cuadro_id = c.id ORDER BY orden ASC
+            ) as imagenes
+        FROM cuadros c
+        JOIN subcategorias s ON c.subcategoria_id = s.id
+        JOIN categorias cat ON s.categoria_id = cat.id
+        WHERE c.id = ? AND c.is_deleted = 0`);
+    return stmt.get(id); // Devuelve el cuadro con los nombres de categoría/subcategoría
 }
 
 // Eliminar un cuadro por su ID
@@ -54,10 +90,39 @@ export function eliminarCuadro(id) {
 }
 
 // Actualizar un cuadro por su ID
-export function actualizarCuadro(id, { titulo, descripcion, imagen, subcategoria }) {
-    const stmt = db.prepare(`UPDATE cuadros SET titulo = ?, descripcion = ?, imagen = ?, subcategoria_id = ? WHERE id = ? AND is_deleted = 0`);
-    const info = stmt.run(titulo, descripcion, imagen, subcategoria, id);
-    return info.changes > 0;
+export function actualizarCuadro(id, { titulo, descripcion, subcategoria, imagenes }) {
+    const transaction = db.transaction((data) => {
+        // 1. Actualizar los datos del cuadro
+        const cuadroStmt = db.prepare(`UPDATE cuadros SET titulo = ?, descripcion = ?, subcategoria_id = ? WHERE id = ? AND is_deleted = 0`);
+        const info = cuadroStmt.run(data.titulo, data.descripcion, data.subcategoria, data.id);
+
+        if (info.changes === 0) {
+            return false; // El cuadro no existía
+        }
+
+        // 2. Actualizar imágenes: Borrar las antiguas e insertar las nuevas.
+        // (Una estrategia más avanzada podría comparar y solo borrar/añadir las diferencias)
+        // Solo modificar si se provee el array de imágenes (incluso si está vacío, para borrarlas todas).
+        if (data.imagenes !== undefined) {
+            const deleteStmt = db.prepare(`DELETE FROM cuadro_imagenes WHERE cuadro_id = ?`);
+            deleteStmt.run(data.id);
+
+            // El controlador puede pasar un string de URLs separadas por comas.
+            // Lo convertimos a un array, filtrando valores vacíos que pueden resultar de .join(',') en un array vacío.
+            // Si `imagenes` es `''`, `split` da `['']`, y `filter(Boolean)` lo limpia a `[]`.
+            // Si `imagenes` es un string con datos, lo convierte en array.
+            const listaImagenes = (typeof data.imagenes === 'string' && data.imagenes) ? data.imagenes.split(',') : [];
+
+            if (listaImagenes.length > 0) {
+                const imgStmt = db.prepare(`INSERT INTO cuadro_imagenes (cuadro_id, imagen_url, orden) VALUES (?, ?, ?)`);
+                listaImagenes.forEach((imgUrl, index) => {
+                    imgStmt.run(data.id, imgUrl, index);
+                });
+            }
+        }
+        return true;
+    });
+    return transaction({ id, titulo, descripcion, subcategoria, imagenes });
 }
 
 // Mostrar catálogo paginado con filtros
@@ -87,8 +152,12 @@ export function mostrarCatalogoPaginado(pagina, limite, filtros = {}) {
 
     // Consulta principal con joins
     const dataQuery = `
-        SELECT c.id, c.titulo, c.descripcion, c.imagen,
-               s.nombre AS subcategoria, cat.nombre AS categoria, c.creado_en
+        SELECT c.id, c.titulo, c.descripcion, 
+               (
+                   SELECT imagen_url FROM cuadro_imagenes 
+                   WHERE cuadro_id = c.id ORDER BY orden ASC LIMIT 1
+               ) as imagen,
+               s.nombre AS subcategoria, cat.nombre AS categoria, cat.color as categoria_color, c.creado_en
         FROM cuadros c
         JOIN subcategorias s ON c.subcategoria_id = s.id
         JOIN categorias cat ON s.categoria_id = cat.id

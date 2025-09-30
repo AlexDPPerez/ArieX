@@ -1,32 +1,62 @@
 <section id="ajustes" class="hidden mb-8">
-    <h3 class="text-lg font-semibold mb-3">Ajustes rápidos</h3>
-    <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <label class="text-sm text-zinc-400">Modo demo</label>
-            <div class="mt-2 flex items-center gap-3">
-                <button class="px-3 py-1 bg-zinc-800 rounded">Activar</button>
-                <button class="px-3 py-1 bg-zinc-800 rounded">Desactivar</button>
-            </div>
-        </div>
-
-        <div>
-            <label class="text-sm text-zinc-400">Backups</label>
-            <div class="mt-2">
-                <button class="px-3 py-1 bg-zinc-800 rounded">Crear backup</button>
-            </div>
-        </div>
-
-        <div>
-            <label class="text-sm text-zinc-400">API keys</label>
-            <div class="mt-2">
-                <input class="w-full rounded bg-zinc-800 px-2 py-1 text-sm" placeholder="key_placeholder"
-                    readonly>
-            </div>
-        </div>
-
-        <div>
-            <label class="text-sm text-zinc-400">Logs</label>
-            <div class="mt-2 text-sm text-zinc-300">Últimos 100 eventos (placeholder)</div>
-        </div>
+  <h3 class="text-lg font-semibold mb-3">Ajustes rápidos</h3>
+  <div
+    class="bg-zinc-950 border border-zinc-800 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-4"
+  >
+    <div>
+      <label class="text-sm text-zinc-400">Modo demo</label>
+      <div class="mt-2 flex items-center gap-3">
+        <button class="px-3 py-1 bg-zinc-800 rounded">Activar</button>
+        <button class="px-3 py-1 bg-zinc-800 rounded">Desactivar</button>
+      </div>
     </div>
+
+    <div>
+      <label class="text-sm text-zinc-400">Backups</label>
+      <div class="mt-2">
+        <button class="px-3 py-1 bg-zinc-800 rounded">Crear backup</button>
+      </div>
+    </div>
+
+    <div>
+      <label class="text-sm text-zinc-400">API keys</label>
+      <div class="mt-2">
+        <input
+          class="w-full rounded bg-zinc-800 px-2 py-1 text-sm"
+          placeholder="key_placeholder"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div>
+      <label class="text-sm text-zinc-400">Logs</label>
+      <div class="mt-2 text-sm text-zinc-300">
+        Últimos 100 eventos (placeholder)
+      </div>
+    </div>
+  </div>
+
+  <!-- Gestionar Categorías Destacadas (movido aquí dentro) -->
+  <div id="gestion-destacadas" class="mt-8">
+    <h3 class="text-lg font-semibold mb-4">Gestionar Categorías Destacadas</h3>
+    <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
+      <p class="text-sm text-zinc-400 mb-4">
+        Selecciona hasta 4 categorías para mostrar en la página de inicio.
+      </p>
+      <div
+        id="destacadas-checkbox-container"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6"
+      >
+        <!-- Checkboxes se cargarán aquí -->
+        <p class="col-span-full text-zinc-500">Cargando categorías...</p>
+      </div>
+      <button
+        id="guardarDestacadasBtn"
+        class="px-4 py-2 bg-emerald-600 rounded-md text-sm hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Guardar Cambios
+      </button>
+    </div>
+  </div>
 </section>

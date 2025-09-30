@@ -1,11 +1,31 @@
-import { obtenerCuadros } from "../models/cuadrosModel.js";
+import { cuadrosModel, categoriasModel } from "../models/index.js";
 
-export const mostrarLandign = (req, res) => {
-    //obtenemos los cuadros para mostrarlos en la pagina de inicio
-    const cuadros = obtenerCuadros();
+export const renderHomePage = (req, res) => {
+  try {
+    // Obtenemos todos los cuadros para la sección de catálogo
+    const todosLosCuadros = cuadrosModel.obtenerCuadros();
 
-    //seleccionmos 5 cuadros aleatorios
-    const cuadrosAleatorios = cuadros.sort(() => 0.8 - Math.random()).slice(0, 8);
+    // Seleccionamos hasta 8 cuadros aleatorios para la sección de catálogo
+    const cuadrosAleatorios = todosLosCuadros
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 8);
 
-    res.render("index", { titulo: "Inicio", cuadros: cuadrosAleatorios });
-}
+    // Obtenemos las categorías destacadas para la sección de categorías
+    const categoriasDestacadas = categoriasModel.obtenerCategoriasDestacadas();
+
+    res.render("index", {
+      titulo: "Inicio",
+      user: req.user, // Pasar el usuario para el header
+      cuadros: cuadrosAleatorios,
+      categoriasDestacadas,
+    });
+  } catch (error) {
+    console.error("Error al renderizar la página de inicio:", error);
+    res.status(500).render("error", {
+      titulo: "Error",
+      message: "Lo sentimos, ha ocurrido un error inesperado.",
+      user: req.user,
+    });
+  }
+};
+

@@ -35,6 +35,7 @@ export async function CuadrosCRUD(notyf, modals) {
     const previewCardTitle = $("#previewCardTitulo");
     const previewCardDescription = $("#previewCardDescripcion");
 
+    const imagePreviewContainer = $("#imagePreviewContainer");
     let cropper = null;
     let croppedImageBlob = null;
 
@@ -148,50 +149,90 @@ export async function CuadrosCRUD(notyf, modals) {
      * @description Muestra una vista previa de la imagen seleccionada en la tarjeta de catálogo.
      * @param {Event} e - El evento de cambio del input de archivo.
      */
-    const handleImagePreview = (e) => {
-        console.log("🖼️ handleImagePreview: Se seleccionó una imagen.");
-        const file = e.target.files[0];
-        if (!file || !cropperImage || !cropperModal) {
-            console.warn("🖼️ handleImagePreview: No se encontró el archivo o los elementos del DOM para el cropper.");
-            return;
+    const handleFilesSelected = (e) => {
+        const files = e.target.files;
+        if (!files.length) return;
+
+        for (const file of files) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                createImagePreview(file, event.target.result);
+            };
+            reader.readAsDataURL(file);
         }
-        console.log("🖼️ handleImagePreview: Archivo seleccionado:", file.name);
+        // Limpiar el input para poder seleccionar los mismos archivos de nuevo si se borran
+        e.target.value = '';
+    };
 
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            console.log("🖼️ FileReader.onload: Imagen cargada en el lector.");
-            // Destruir instancia anterior si existe
-            if (cropper) {
-                console.log("🖼️ FileReader.onload: Destruyendo instancia anterior de Cropper.");
-                cropper.destroy();
-            }
-            // Asignar la nueva imagen y abrir el modal
-            cropperImage.src = event.target.result;
-            console.log("🖼️ FileReader.onload: Abriendo modal de recorte...");
-            modals.openModal(cropperModal);
+    /**
+     * Crea una tarjeta de previsualización para una imagen.
+     * @param {File} file - El objeto File original.
+     * @param {string} src - La URL de datos (base64) para la vista previa.
+     */
+    const createImagePreview = (file, src) => {
+        const id = `preview-${Date.now()}-${String(Math.random()).replace('.', '')}`;
+        const previewWrapper = document.createElement('div');
+        previewWrapper.className = 'relative w-24 h-24 rounded-lg overflow-hidden border-2 border-zinc-700 group';
+        previewWrapper.id = id;
+        previewWrapper.dataset.fileName = file.name; // Guardamos el nombre del archivo
 
-            // Inicializar Cropper.js. Un pequeño delay puede ayudar a que el modal sea visible.
-            setTimeout(() => {
-                try {
-                    console.log("🖼️ setTimeout: Intentando inicializar Cropper.js...");                    
-                    cropper = new Cropper(cropperImage, {
-                        aspectRatio: 1, // Cuadrado. Cambia según necesites (e.g., 4/3, 16/9)
-                        viewMode: 1,
-                        autoCropArea: 0.9,
-                        responsive: true,
-                        movable: true,
-                        zoomable: true,
-                        dragMode: 'move',
-                    });
-                    console.log("🖼️ setTimeout: Cropper.js inicializado con éxito.", cropper);
-                } catch (err) {
-                    console.error("💥 ERROR al inicializar Cropper.js:", err);
-                    notyf.error("Error al iniciar el editor de imágenes. Revisa la consola.");
-                    modals.closeModal(cropperModal);
-                }
-            }, 200); // Coincide con la animación del modal
-        };
-        reader.readAsDataURL(file);
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'w-full h-full object-cover';
+        
+        // Guardamos el archivo/blob en el elemento para recuperarlo al enviar
+        previewWrapper.fileData = file;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'absolute inset-0 bg-black/60 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity';
+
+        const cropBtn = document.createElement('button');
+        cropBtn.type = 'button';
+        cropBtn.innerHTML = '✏️';
+        cropBtn.title = 'Recortar';
+        cropBtn.className = 'p-1 rounded-full bg-black/50 hover:bg-emerald-600';
+        cropBtn.onclick = () => openCropper(previewWrapper);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
+        deleteBtn.innerHTML = '🗑️';
+        deleteBtn.title = 'Eliminar';
+        deleteBtn.className = 'p-1 rounded-full bg-black/50 hover:bg-rose-600';
+        deleteBtn.onclick = () => previewWrapper.remove();
+
+        overlay.append(cropBtn, deleteBtn);
+        previewWrapper.append(img, overlay);
+        imagePreviewContainer.appendChild(previewWrapper);
+        return previewWrapper; // Asegurarse de que el wrapper se devuelve
+    };
+
+    /**
+     * Abre el modal de recorte para una imagen específica.
+     * @param {HTMLElement} previewWrapper - El div que contiene la imagen a recortar.
+     */
+    const openCropper = (previewWrapper) => {
+        if (!previewWrapper || !cropperImage || !cropperModal) return;
+
+        const imageSrc = previewWrapper.querySelector('img').src;
+
+        if (cropper) cropper.destroy();
+
+        cropperImage.src = imageSrc;
+        modals.openModal(cropperModal);
+
+        // Guardamos una referencia al elemento que estamos editando
+        cropperModal.dataset.editingElementId = previewWrapper.id;
+
+        setTimeout(() => {
+            cropper = new Cropper(cropperImage, {
+                viewMode: 1,
+                autoCropArea: 0.9,
+                responsive: true,
+                movable: true,
+                zoomable: true,
+                dragMode: 'move',
+            });
+        }, 200);
     };
 
     /**
@@ -203,6 +244,7 @@ export async function CuadrosCRUD(notyf, modals) {
         formCrear.reset();
         croppedImageBlob = null;
         formCrear.id.value = ''; // Asegurarse de que el campo ID esté vacío
+        imagePreviewContainer.innerHTML = ''; // Limpiar previsualizaciones
 
         // Resetear la vista previa del catálogo a su estado por defecto
         if (previewCardImage) previewCardImage.src = '/uploads/default.png';
@@ -221,12 +263,29 @@ export async function CuadrosCRUD(notyf, modals) {
         registrarCuadroBtn.textContent = "Guardar Cambios";
         formCrear.reset();
         croppedImageBlob = null;
+        imagePreviewContainer.innerHTML = ''; // Limpiar previsualizaciones
 
         // Inyectar datos en el formulario
         formCrear.id.value = data.id;
         formCrear.titulo.value = data.titulo;
         formCrear.descripcion.value = data.descripcion;
-        // Nota: El input de imagen no se puede pre-rellenar por seguridad del navegador.
+
+        // Crear previsualizaciones para las imágenes existentes
+        const initialImagesArray = []; // Array para almacenar las URLs de las imágenes iniciales
+        if (data.imagenes) {
+            const imagenesExistentes = data.imagenes.split(',');
+            imagenesExistentes.forEach(url => {
+                if (!url) return;
+                const previewWrapper = createImagePreview({ name: url }, url); // createImagePreview ahora devuelve el wrapper
+                if (previewWrapper) { // Asegurarse de que el wrapper se creó correctamente
+                    previewWrapper.dataset.isExisting = 'true'; // Marcar como existente
+                    previewWrapper.fileData = url; // Guardar la URL
+                    initialImagesArray.push(url); // Añadir al array para el estado inicial
+                }
+            });
+        }
+        // Siempre guardamos el estado inicial de las imágenes, incluso si está vacío.
+        formCrear.dataset.initialImages = JSON.stringify(initialImagesArray.filter(Boolean));
 
         // Actualizar la vista previa del catálogo con los datos existentes
         if (previewCardImage) previewCardImage.src = data.imagen || '/uploads/default.png';
@@ -267,12 +326,27 @@ export async function CuadrosCRUD(notyf, modals) {
 
         const formData = new FormData(formCrear);
 
-        // Si hay una imagen recortada, la usamos en lugar de la original.
-        if (croppedImageBlob) {
-            console.log("📤 handleFormSubmit: Añadiendo imagen recortada (blob) al FormData.");
-            formData.set('imagen', croppedImageBlob, 'cropped_image.png');
-        } else {
-            console.log("📤 handleFormSubmit: No hay imagen recortada. Se usará el input de archivo si existe.");
+        // Limpiar el campo 'imagenes' para no enviar el FileList original
+        formData.delete('imagenes');
+
+        const previews = $$('#imagePreviewContainer > div');
+        const imagenesExistentes = [];
+        let imageInteraction = false; // Flag para detectar si se interactuó con las imágenes
+
+        previews.forEach((p, index) => {
+            if (p.dataset.isExisting === 'true') {
+                // Si es una imagen existente que no se borró, añadimos su URL
+                imagenesExistentes.push(p.fileData);
+            } else {
+                // Si es una imagen nueva (File o Blob), la añadimos al FormData
+                imageInteraction = true;
+                formData.append('imagenes', p.fileData, p.dataset.fileName);
+            }
+        });
+
+        // Si se subieron nuevas imágenes o si la lista de existentes cambió, enviamos el campo.
+        if (imageInteraction || JSON.stringify(imagenesExistentes) !== formCrear.dataset.initialImages) {
+            formData.append('imagenesExistentes', JSON.stringify(imagenesExistentes));
         }
 
         const isEditing = !!formCrear.id.value;
@@ -362,8 +436,8 @@ export async function CuadrosCRUD(notyf, modals) {
     if (formCrear.descripcion) {
         formCrear.descripcion.addEventListener('input', updateCatalogPreview);
     }
-    if (formCrear.imagen) {
-        formCrear.imagen.addEventListener("change", handleImagePreview);
+    if (formCrear.imagenes) { // El input ahora se llama 'imagenes'
+        formCrear.imagenes.addEventListener("change", handleFilesSelected);
     }
 
     // Cambiar subcategorías al seleccionar una categoría
@@ -378,25 +452,27 @@ export async function CuadrosCRUD(notyf, modals) {
     // Evento para confirmar el recorte de la imagen
     if (cropConfirmBtn) {
         cropConfirmBtn.addEventListener('click', () => {
-            console.log("🖱️ Botón 'Confirmar Recorte' presionado.");
-            if (!cropper) {
-                console.error("🖱️ Error: La instancia de Cropper no existe al confirmar.");
-                return;
-            }
+            if (!cropper) return;
 
-            console.log("🖱️ Obteniendo lienzo recortado...");
+            const editingId = cropperModal.dataset.editingElementId;
+            const previewWrapper = $(`#${editingId}`);
+            if (!previewWrapper) return;
+
             cropper.getCroppedCanvas({
                 width: 500, // Define el tamaño de la imagen final
                 height: 500,
                 imageSmoothingQuality: 'high',
             }).toBlob((blob) => {
-                console.log("🖼️ toBlob callback: Se generó el blob de la imagen recortada.", blob);
-                croppedImageBlob = blob;
-                previewCardImage.src = URL.createObjectURL(blob);
-                console.log("🖼️ toBlob callback: Vista previa actualizada y modal de recorte cerrándose.");
+                // Actualizar la imagen de la previsualización
+                const imgElement = previewWrapper.querySelector('img');
+                const objectURL = URL.createObjectURL(blob);
+                imgElement.src = objectURL;
+
+                // Reemplazar el File original con el nuevo Blob
+                previewWrapper.fileData = blob;
+                previewWrapper.dataset.isExisting = 'false'; // Ya no es una imagen existente
+
                 modals.closeModal(cropperModal);
-                // Limpiar el input de archivo para no enviar el archivo original
-                formCrear.imagen.value = '';
             }, 'image/png');
         });
     }

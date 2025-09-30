@@ -1,7 +1,7 @@
 import express from "express";
-import { mostrarLandign } from "../controllers/homeController.js";
+import { renderHomePage } from "../controllers/homeController.js";
 const router = express.Router();
 
-router.get("/", mostrarLandign);
+router.get("/", renderHomePage);
 
 export default router;

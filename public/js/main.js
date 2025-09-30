@@ -2,6 +2,7 @@ import { Modals } from './modals.js';
 import { CuadrosCRUD } from './cuadrosCrud.js';
 import { CategoriasCRUD } from './categoriasCRUD.js';
 import { UsuariosCRUD } from './usuariosCRUD.js';
+import { DestacadasCRUD } from './destacadasCRUD.js';
 
 /* =========================================================
    🚀 MAIN - Inicialización de la aplicación
@@ -32,4 +33,5 @@ document.addEventListener("DOMContentLoaded", () => {
     CuadrosCRUD(notyf, modals);
     CategoriasCRUD(notyf, modals);
     UsuariosCRUD(notyf, modals);
+    DestacadasCRUD(notyf)
 });

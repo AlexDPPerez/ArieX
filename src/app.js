@@ -12,18 +12,19 @@ import usuariosRoutes from "./routes/usuariosRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import { isAuthenticated, isAdmin } from "./controllers/authController.js";
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
 // Configuración de Sesión
-app.use(session({
-    secret: 'un_secreto_muy_fuerte_y_largo_para_produccion', // Cambia esto por una cadena aleatoria y segura
+app.use(
+  session({
+    secret: "un_secreto_muy_fuerte_y_largo_para_produccion", // Cambia esto por una cadena aleatoria y segura
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // En producción, si usas HTTPS, pon esto en 'true'
-}));
+    cookie: { secure: false }, // En producción, si usas HTTPS, pon esto en 'true'
+  })
+);
 
 app.use(express.static("dist"));
 
@@ -37,16 +38,20 @@ app.use(expressLayouts);
 
 // Middleware para pasar datos de sesión a todas las vistas
 app.use((req, res, next) => {
-    res.locals.user = req.session.user || null;
-    next();
+  res.locals.user = req.session.user || null;
+  next();
 });
 
 // logging + instance header
 app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} — pid:${process.pid}`);
-    res.setHeader('X-Instance', process.pid);
-    next();
-  });
+  console.log(
+    `[${new Date().toISOString()}] ${req.method} ${req.originalUrl} — pid:${
+      process.pid
+    }`
+  );
+  res.setHeader("X-Instance", process.pid);
+  next();
+});
 
 // Rutas
 app.use("/", homeRoutes);
@@ -58,11 +63,29 @@ app.use(cuadrosRoutes); // ? le quité el prefijo /api porque las rutas ya lo ti
 app.use(categoriasRoutes); // ? le quité el prefijo /api porque las rutas ya lo tienen
 app.use(isAuthenticated, isAdmin, usuariosRoutes); // <-- APIs DE USUARIOS PROTEGIDAS SOLO PARA ADMIN
 
-
 app.use((req, res, next) => {
-    console.log(`Ruta solicitada: ${req.originalUrl}`);
-    next();
+  // Este middleware se ejecutará si ninguna ruta anterior coincide.
+  // Renderiza la página de error con un estado 404.
+  res.status(404).render('error', {
+    titulo: 'Página no encontrada',
+    message: 'La página que buscas no existe.',
+    error: { status: 404 }
+  });
+});
+
+// Middleware para manejar todos los demás errores (errores 500)
+app.use((err, req, res, next) => {
+  // Imprime el error en la consola del servidor para depuración.
+  console.error(err.stack);
+  // Renderiza la página de error con el estado y mensaje del error.
+  res.status(err.status || 500).render('error', {
+    titulo: 'Error en el servidor',
+    message: err.message || 'Algo salió mal en el servidor.',
+    error: err
+  });
 });
 
 const PORT = 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});

@@ -1,4 +1,4 @@
-import { obtenerUsuarioPorNombre } from "../models/usuariosModel.js";
+import { usuariosModel } from "../models/index.js";
 import bcrypt from "bcryptjs";
 
 // Renderiza la página de login
@@ -25,7 +25,7 @@ export const handleLogin = (req, res) => {
         return handleError(400, "Nombre y contraseña son obligatorios.");
     }
 
-    const usuario = obtenerUsuarioPorNombre(nombre);
+    const usuario = usuariosModel.obtenerUsuarioPorNombre(nombre);
 
     // Verificar si el usuario existe y la contraseña es correcta
     if (!usuario || !bcrypt.compareSync(password, usuario.password)) {

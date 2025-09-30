@@ -14,7 +14,7 @@
 
 
 
-<body class="bg-zinc-950 text-gray-100">
+<body class="bg-zinc-950 text-gray-100 flex flex-col min-h-screen">
 
     <!-- Header responsive -->
     <header class="sticky top-0 z-50 bg-black/30 backdrop-blur-sm">
@@ -62,9 +62,9 @@
             <div id="mobileMenu" class="md:hidden hidden mt-2">
                 <ul class="flex flex-col gap-2">
                     <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
-                            href="index.html">Inicio</a></li>
+                            href="index">Inicio</a></li>
                     <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
-                            href="catalogo.html">Catalogo</a></li>
+                            href="catalogo">Catalogo</a></li>
                     <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
                             href="#nosotros">Nosotros</a></li>
                     <li><a class="block p-3 text-gray-100 rounded-lg hover:text-black hover:bg-gray-200 transition-colors"
@@ -74,7 +74,7 @@
         </div>
     </header>
 
-    <main class="container mx-auto px-4 pb-12">
+    <main class="container mx-auto px-4 pb-12 flex-grow">
         <%- body %>
     </main>
 
@@ -94,6 +94,19 @@
 
     <!-- Cargar el script dedicado para el sitio público -->
     <script type="module" src="/js/public.js"></script>
+
+    <!-- Lightbox para ampliar imágenes -->
+    <div id="imageLightbox" class="fixed inset-0 z-[999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden transition-opacity duration-300">
+        <button id="closeLightbox" class="absolute top-4 right-6 text-white text-5xl font-light z-[1001] hover:text-zinc-300 transition-colors" aria-label="Cerrar imagen">&times;</button>
+        <div id="lightboxCounter" class="absolute top-5 left-6 text-white text-lg bg-black/30 px-3 py-1 rounded-lg z-[1001]"></div>
+        <div class="relative">
+            <img id="lightboxImage" src="" alt="Vista ampliada" class="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl">
+        </div>
+        <!-- Botones de Navegación -->
+        <button id="prevImage" class="absolute left-4 md:left-8 text-white text-4xl z-[1001]"></button>
+        <button id="nextImage" class="absolute right-4 md:right-8 text-white text-4xl z-[1001]"></button>
+    </div>
+
 </body>
 
 </html>
