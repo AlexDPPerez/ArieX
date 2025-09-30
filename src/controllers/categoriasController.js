@@ -114,6 +114,12 @@ export const actualizarCategoria = (req, res) => {
     if (!subcategorias || !Array.isArray(subcategorias) || subcategorias.length === 0) {
         return res.status(400).json({ message: 'Debe proporcionar al menos una subcategoría.' });
     }
+
+    // Verificar si ya existe una categoría con el mismo nombre
+    const categoriaExistente = categoriasModel.obtenerCategoriaPorNombre(nombre.trim());
+    if (categoriaExistente) {
+        return res.status(409).json({ message: 'Ya existe una categoría con ese nombre.' }); // 409 Conflict
+    }
     nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
 
     try {

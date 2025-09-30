@@ -166,6 +166,14 @@ export function subcategoriasPorCategoria(categoria_id) {
   return stmt.all(categoria_id);
 }
 
+/** @description Obtiene una categoría por su nombre para verificar si existe. */
+export function obtenerCategoriaPorNombre(nombre) {
+  const stmt = db.prepare(
+    `SELECT id FROM categorias WHERE nombre = ? AND is_deleted = 0`
+  );
+  return stmt.get(nombre);
+}
+
 /** @description Obtiene todas las categorías con sus subcategorías concatenadas. */
 export function obtenerCategoriasConSubcategorias() {
   const stmt = db.prepare(`
