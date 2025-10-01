@@ -128,7 +128,7 @@ export function actualizarCuadro(id, { titulo, descripcion, subcategoria, imagen
 // Mostrar catálogo paginado con filtros
 export function mostrarCatalogoPaginado(pagina, limite, filtros = {}) {
     const page = Math.max(1, parseInt(pagina || '1', 10));
-    const limit = Math.max(1, parseInt(limite || '12', 10)); // Mostrar por defecto 12
+    const limit = Math.max(1, parseInt(limite || '12', 10)); // Por defecto 12 productos por página
     const offset = (page - 1) * limit;
 
     const { categoria, subcategoria, search } = filtros;

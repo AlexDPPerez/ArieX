@@ -54,38 +54,27 @@ export const actualizarCuadro = (req, res) => {
     // `imagenesExistentes` es un string con las URLs de las imágenes que no se borraron en el frontend.
     const { titulo, descripcion, subcategoria, imagenesExistentes } = req.body;
 
-    if (!subcategoria) {
-        return res.status(400).json({ error: "Debes seleccionar una subcategoría" });
-    }
-
     try {
         const cuadroExistente = cuadrosModel.obtenerCuadro(id);
         if (!cuadroExistente) {
             return res.status(404).json({ error: "Cuadro no encontrado" });
         }
 
-        // Inicializamos los datos a actualizar con la información que viene del body
-        const updateData = { titulo, descripcion, subcategoria };
+        const updateData = { titulo, descripcion, subcategoria: Number(subcategoria) };
 
-        // Verificamos si se ha enviado información para modificar las imágenes.
-        // `imagenesExistentes` puede ser undefined, null, una cadena vacía '' o un string JSON '[]'.
-        // Solo actuamos si `imagenesExistentes` tiene un valor "real" o si se suben nuevos archivos.
         const hayNuevosArchivos = req.files && req.files.length > 0;
-        // Se considera que hay cambios si el campo `imagenesExistentes` fue enviado.
-        // Su presencia, incluso como '[]', indica una intención de modificar la lista de imágenes.
         const hayCambiosEnExistentes = imagenesExistentes !== undefined;
         
         if (hayNuevosArchivos || hayCambiosEnExistentes) {
             const nuevasImagenes = req.files ? req.files.map(file => `/uploads/${file.filename}`) : [];
             let imagenesGuardadas = [];
-            // Solo intentamos parsear si `imagenesExistentes` no es una cadena vacía.
-            // Esto previene el error `JSON.parse('')`.
+            
             if (imagenesExistentes && typeof imagenesExistentes === 'string') {
                 try {
+                    // `imagenesExistentes` llega como un string JSON '["/uploads/img1.jpg"]'
                     imagenesGuardadas = JSON.parse(imagenesExistentes);
                 } catch (e) { /* Ignorar error de parseo si el string no es JSON válido */ }
             }
-            // Solo si hay cambios, añadimos la propiedad 'imagenes' al objeto de actualización.
             const listaFinalImagenes = [...imagenesGuardadas, ...nuevasImagenes];
 
             // El modelo espera un string de imágenes. Si la lista está vacía, se convierte en ''.
@@ -101,7 +90,7 @@ export const actualizarCuadro = (req, res) => {
         }
 
         res.json({ message: "Cuadro actualizado correctamente" });
-    } catch (error) {
+    } catch (error) { // Captura errores de base de datos o de lógica.
         console.error(`Error al actualizar el cuadro ${id}:`, error);
         res.status(500).json({ message: "Error interno del servidor." });
     }

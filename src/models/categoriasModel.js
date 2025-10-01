@@ -192,6 +192,36 @@ export function obtenerCategoriasConSubcategorias() {
   return stmt.all();
 }
 
+/** @description Obtiene todas las categorías con sus subcategorías anidadas para los filtros. */
+export function obtenerCategoriasConSubcategoriasAnidadas() {
+  // Optimización para evitar el problema N+1.
+  // 1. Obtenemos todas las categorías.
+  const categorias = db.prepare(`
+        SELECT id, nombre, color 
+        FROM categorias 
+        WHERE is_deleted = 0 
+        ORDER BY nombre ASC
+    `).all();
+
+  // 2. Obtenemos todas las subcategorías relevantes de una sola vez.
+  const subcategorias = db.prepare(`
+        SELECT id, nombre, categoria_id 
+        FROM subcategorias
+        WHERE is_deleted = 0
+        ORDER BY nombre ASC
+    `).all();
+
+  // 3. Mapeamos las subcategorías a sus categorías correspondientes en la aplicación.
+  const categoriasMap = new Map(categorias.map(c => [c.id, { ...c, subcategorias: [] }]));
+  subcategorias.forEach(sc => {
+    if (categoriasMap.has(sc.categoria_id)) {
+      categoriasMap.get(sc.categoria_id).subcategorias.push(sc);
+    }
+  });
+
+  return Array.from(categoriasMap.values());
+}
+
 /** @description Obtiene las 4 categorías marcadas como destacadas. */
 export function obtenerCategoriasDestacadas() {
   const stmt = db.prepare(

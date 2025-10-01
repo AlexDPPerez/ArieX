@@ -1,9 +1,9 @@
 <div class="container mx-auto text-center py-20">
     <h1 class="text-6xl font-bold text-rose-500 mb-4">
-        <%= error.status || 500 %>
+        <%= locals.error && locals.error.status ? locals.error.status : 500 %>
     </h1>
     <h2 class="text-3xl font-semibold text-zinc-200 mb-2">
-        <%= message %>
+        <%= locals.message || 'Ha ocurrido un error' %>
     </h2>
     <p class="text-zinc-400 mb-8">
         Lo sentimos, ha ocurrido un error inesperado.
